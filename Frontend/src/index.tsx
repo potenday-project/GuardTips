@@ -4,8 +4,7 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://cdn.jsdelivr.net/npm/galmuri/dist/galmuri.css');
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -41,6 +40,13 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
+  @font-face {
+    font-family: "Giants";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2")
+      format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
   line-height: 1;
 }
 menu, ol, ul {

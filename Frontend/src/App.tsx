@@ -8,8 +8,9 @@ import Map from "./pages/Map/Map";
 const AppWrap = styled.section`
   max-width: 430px;
   height: 932px;
-  background-color: pink;
   margin: 0 auto;
+  border: solid 1px;
+  overflow: hidden;
 `;
 
 function App() {
