@@ -40,6 +40,7 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
+  position: relative;
   @font-face {
     font-family: "Giants";
     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2")
