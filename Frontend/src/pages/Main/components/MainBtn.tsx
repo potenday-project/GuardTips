@@ -86,6 +86,9 @@ interface IMainBtn {
 const MainBtn = ({ mainData, name }: IMainBtn) => {
   const navigate = useNavigate();
   const onClick = (x: string) => {
+    if (x.includes("출동차량")) {
+      return;
+    }
     navigate(`/${name}`, { state: x });
   };
   return (
