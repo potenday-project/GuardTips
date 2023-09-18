@@ -77,7 +77,6 @@ const SelectWrap = styled.div`
 
 const SelectList = styled.ul`
   width: 153px;
-  height: 264px;
   border-radius: 12px;
   background: var(--G_04, #ececec);
   display: inline-block;
@@ -100,6 +99,7 @@ const SelectList = styled.ul`
 `;
 const ListWrap = styled.div`
   height: 100%;
+  padding-bottom: 100px;
   overflow-y: scroll;
   /* 스크롤 안보이기 */
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
@@ -161,6 +161,7 @@ const Map = () => {
 
   const menuList = [
     "전체",
+    "전체 대피소",
     "민방위대피소",
     "임시주거시설",
     "지진 대피소",
@@ -207,6 +208,8 @@ const Map = () => {
   useEffect(() => {
     if (enterName === "") {
       setMenuName("전체");
+    } else if (enterName === "대피 시설") {
+      setMenuName("전체 대피소");
     } else {
       setMenuName(enterName);
     }
@@ -241,6 +244,12 @@ const Map = () => {
   const searched = data.filter((data) => {
     if (menuName === "전체") {
       return data;
+    } else if (menuName === "전체 대피소") {
+      return (
+        data.type.includes("민방위대피소") ||
+        data.type.includes("지진 대피소") ||
+        data.type.includes("임시주거시설")
+      );
     } else if (menuName === "병원&약국") {
       return data.type.includes("병원") || data.type.includes("약국");
     }
