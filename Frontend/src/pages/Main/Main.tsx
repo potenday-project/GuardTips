@@ -58,7 +58,7 @@ const Main = () => {
   ];
 
   const guideSide = [
-    { name: "대피시설" },
+    { name: "대피 시설" },
     { name: "출동차량" },
     { name: "급수시설" },
     { name: "병원&약국" },
