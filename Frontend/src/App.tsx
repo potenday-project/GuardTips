@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { NavermapsProvider } from "react-naver-maps";
 import Main from "./pages/Main/Main";
 import NotFound from "./pages/NotFound";
 import { styled } from "styled-components";
@@ -16,16 +17,18 @@ const AppWrap = styled.section`
 function App() {
   return (
     <AppWrap>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />}></Route>
-          <Route path="/guide" element={<Guide />}></Route>
-          <Route path="/map" element={<Map />}></Route>
+      <NavermapsProvider ncpClientId={`${process.env.REACT_APP_NAVER_ID}`}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Main />}></Route>
+            <Route path="/guide" element={<Guide />}></Route>
+            <Route path="/map" element={<Map />}></Route>
 
-          {/* 일치하는 라우터가 없는 경우 */}
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-      </BrowserRouter>
+            {/* 일치하는 라우터가 없는 경우 */}
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </NavermapsProvider>
     </AppWrap>
   );
 }

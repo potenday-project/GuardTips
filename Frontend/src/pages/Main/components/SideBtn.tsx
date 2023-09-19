@@ -8,12 +8,24 @@ const SideBtnWrap = styled.ul`
   overflow-x: scroll;
   li {
     width: 112px;
-    height: 110px;
     margin-right: 16px;
-    border: dashed 1px;
     padding: 1rem 0;
     transform: translate(0, 0);
     flex: 0 0 auto;
+    div {
+      position: relative;
+      width: 100%;
+      border: dashed 1px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    p {
+      text-align: center;
+    }
   }
 `;
 
@@ -35,7 +47,10 @@ const SideBtn = ({ sideData, name }: ISideBtn) => {
       {sideData.map((x) => {
         return (
           <li key={x.name} onClick={() => onClick(x.name)}>
-            {x.name}
+            <div>
+              <img src="assets/folder.png" alt="" />
+            </div>
+            <p>{x.name}</p>
           </li>
         );
       })}

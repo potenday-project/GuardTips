@@ -6,19 +6,22 @@ export const MainBtnWrap = styled.ul`
   justify-content: space-between;
   flex-wrap: wrap;
   li {
+    position: relative;
     margin-bottom: 12px;
     height: 143px;
     word-break: keep-all;
     border-radius: 40px;
+    padding: 30px;
     h2 {
-      font-family: "Giants";
-      font-size: 28px;
-      font-weight: 700;
+      color: var(--W_00, #fff);
+      font: 700 28px "Giants";
     }
   }
   li:nth-child(1) {
     width: 100%;
     height: 176px;
+    display: flex;
+    align-items: end;
   }
   li:nth-child(2),
   li:nth-child(3) {
@@ -27,6 +30,8 @@ export const MainBtnWrap = styled.ul`
   }
   li:nth-child(4) {
     width: 100%;
+    display: flex;
+    align-items: end;
   }
 
   p {
@@ -76,6 +81,18 @@ export const MainBtnWrap = styled.ul`
   }
 `;
 
+const ImgWrap = styled.div`
+  position: absolute;
+  right: 10px;
+  width: 168px;
+  height: 168px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+`;
+
 const TextWrap = styled.div``;
 
 interface IMainBtn {
@@ -101,6 +118,9 @@ const MainBtn = ({ mainData, name }: IMainBtn) => {
                 <p>{name === "map" ? "지도" : "가이드"}</p>
                 <h2>{x.name}</h2>
               </TextWrap>
+              <ImgWrap>
+                <img src={x.img} alt="" />
+              </ImgWrap>
             </li>
           );
         })}
