@@ -20,9 +20,7 @@ const TapMenu = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   color: var(--G_03, #d9d9d9);
-  font-family: "Giants";
-  font-size: 18px;
-  font-weight: 700;
+  font: 700 18px "Giants";
   .active {
     border-bottom: solid 2px #056fe7;
     color: #056fe7;
@@ -31,19 +29,18 @@ const TapMenu = styled.div`
 `;
 
 const Logo = styled.div`
-  font-family: "Giants";
-  font-size: 20px;
-  font-weight: 700;
+  color: var(--G_03, #d9d9d9);
+  font: 700 20px "Giants";
 `;
 
 const Main = () => {
   const [tap, setTap] = useState(true);
 
   const mapMain = [
-    { name: "대피 시설", btn: "blue" },
-    { name: "출동차량 위치확인", btn: "pink" },
-    { name: "급수시설", btn: "green" },
-    { name: "병원&약국", btn: "purple" },
+    { name: "대피 시설", btn: "blue", img: "assets/exit.png" },
+    { name: "출동차량 위치확인", btn: "pink", img: "assets/ambulance.png" },
+    { name: "급수시설", btn: "green", img: "assets/water.png" },
+    { name: "병원&약국", btn: "purple", img: "assets/pharmacy.png" },
   ];
   const mapSide = [
     { name: "생존배낭" },
@@ -52,9 +49,9 @@ const Main = () => {
   ];
 
   const guideMain = [
-    { name: "재난대처", btn: "pink" },
-    { name: "생존배낭", btn: "blue" },
-    { name: "응급처치", btn: "purple" },
+    { name: "재난대처", btn: "pink", img: "assets/siren.png" },
+    { name: "생존배낭", btn: "blue", img: "assets/bag.png" },
+    { name: "응급처치", btn: "purple", img: "assets/firstaid.png" },
   ];
 
   const guideSide = [
