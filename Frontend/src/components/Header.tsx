@@ -11,6 +11,7 @@ const HeaderWrap = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
   div {
     position: absolute;
     left: 30px;
