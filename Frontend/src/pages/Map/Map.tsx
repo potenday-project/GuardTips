@@ -154,15 +154,13 @@ const Map = () => {
           setDataArr(res.data);
         });
       } catch (err) {
-        console.error(err);
+        console.error("err");
       }
     };
     if (enterName === "급수시설") {
       getWaterApi();
     }
   }, []);
-
-  console.log(dataArr);
 
   useEffect(() => {
     setTempData([
@@ -274,14 +272,6 @@ const Map = () => {
     setShowDetail(true);
   };
 
-  // 리랜더링 방지
-  const filterData = tempData.filter((data) => {
-    if (data.name === listName) {
-      return data;
-    }
-    return <div>{data.order}</div>;
-  });
-
   return (
     <MapWrap>
       <Header title={"지도"} />
@@ -296,7 +286,7 @@ const Map = () => {
           <NaverMap
             defaultCenter={new navermaps.LatLng(37.3595704, 127.105399)}
             defaultZoom={15}
-            maxZoom={15}
+            maxZoom={18}
             minZoom={15}
             ref={setMap}
           >
@@ -308,6 +298,7 @@ const Map = () => {
                   title={data.name}
                   onClick={() => {
                     onClick(data.code);
+                    setListName(data.name);
                   }}
                   icon={{
                     content:
