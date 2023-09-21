@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { IData } from "../Map";
+import { useState } from "react";
 
 const DetailWrap = styled.div`
   width: 100%;
@@ -95,98 +96,98 @@ interface IMapDetail {
 }
 
 const MapDetail = ({ dataArr, listName, setShowDetail }: IMapDetail) => {
-  return (
-    <DetailWrap>
-      {dataArr.map((data) => {
-        if (data.name === listName) {
-          return (
-            <div key={data.name}>
-              <svg
-                onClick={() => setShowDetail(false)}
-                xmlns="http://www.w3.org/2000/svg"
-                width="11"
-                height="20"
-                viewBox="0 0 11 20"
-                fill="none"
-              >
-                <path
-                  d="M10 19L1 10L10 0.999999"
-                  stroke="black"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <div className="titleWrap">
-                <h3>{data.name}</h3>
-                <p className="subTitle">{data.address}</p>
-              </div>
-              {data.detail && data.type === "민방위대피소" ? (
-                <ul className="detailList">
-                  <li>
-                    <span>시설</span>
-                    <p>{data.detail["place"]}</p>
-                  </li>
-                  <li>
-                    <span>규모</span>
-                    <p>{data.detail["size"]}</p>
-                  </li>
-                  <li>
-                    <span>최대 수용인원</span>
-                    <p>{data.detail["people"]}</p>
-                  </li>
-                  <li>
-                    <span>전화번호</span>
-                    <p>{data.detail["phone"]}</p>
-                  </li>
-                </ul>
-              ) : data.detail && data.type === "급수시설" ? (
-                <ul className="detailList">
-                  <li>
-                    <span>시설</span>
-                    <p>{data.detail["place"]}</p>
-                  </li>
-                  <li>
-                    <span>규모</span>
-                    <p>{data.detail["size"]}</p>
-                  </li>
-                  <li>
-                    <div className="waterDetail">
-                      <span>
-                        <img src="assets/icon/alert.png" alt="alert" />
-                      </span>
-                      <p>
-                        호수, 분수대, 하천, 개울물로 식수 사용은
-                        <br /> 감염의 위험이 있어 급수시설 이용을 추천드립니다.
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              ) : data.detail && data.type === "병원" ? (
-                <ul className="detailList">
-                  <li>
-                    <span>시설</span>
-                    <p>{data.detail["place"]}</p>
-                  </li>
-                  <li>
-                    <span>전화번호</span>
-                    <p>{data.detail["phone"]}</p>
-                  </li>
-                </ul>
-              ) : (
-                <ul>정보 준비중입니다.</ul>
-              )}
-
-              <div className="btnWrap">
-                <button>자세히보기</button>
-                <button>공유하기</button>
-              </div>
+  const render = () => {
+    for (let i = 0; i < dataArr.length; i++) {
+      if (dataArr[i].name === listName) {
+        let data = dataArr[i];
+        return (
+          <div key={data.name}>
+            <svg
+              onClick={() => setShowDetail(false)}
+              xmlns="http://www.w3.org/2000/svg"
+              width="11"
+              height="20"
+              viewBox="0 0 11 20"
+              fill="none"
+            >
+              <path
+                d="M10 19L1 10L10 0.999999"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="titleWrap">
+              <h3>{data.name}</h3>
+              <p className="subTitle">{data.address}</p>
             </div>
-          );
-        }
-      })}
-    </DetailWrap>
-  );
+            {data.detail && data.type === "민방위대피소" ? (
+              <ul className="detailList">
+                <li>
+                  <span>시설</span>
+                  <p>{data.detail["place"]}</p>
+                </li>
+                <li>
+                  <span>규모</span>
+                  <p>{data.detail["size"]}</p>
+                </li>
+                <li>
+                  <span>최대 수용인원</span>
+                  <p>{data.detail["people"]}</p>
+                </li>
+                <li>
+                  <span>전화번호</span>
+                  <p>{data.detail["phone"]}</p>
+                </li>
+              </ul>
+            ) : data.detail && data.type === "급수시설" ? (
+              <ul className="detailList">
+                <li>
+                  <span>시설</span>
+                  <p>{data.detail["place"]}</p>
+                </li>
+                <li>
+                  <span>규모</span>
+                  <p>{data.detail["size"]}</p>
+                </li>
+                <li>
+                  <div className="waterDetail">
+                    <span>
+                      <img src="assets/icon/alert.png" alt="alert" />
+                    </span>
+                    <p>
+                      호수, 분수대, 하천, 개울물로 식수 사용은
+                      <br /> 감염의 위험이 있어 급수시설 이용을 추천드립니다.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            ) : data.detail && data.type === "병원" ? (
+              <ul className="detailList">
+                <li>
+                  <span>시설</span>
+                  <p>{data.detail["place"]}</p>
+                </li>
+                <li>
+                  <span>전화번호</span>
+                  <p>{data.detail["phone"]}</p>
+                </li>
+              </ul>
+            ) : (
+              <ul>정보 준비중입니다.</ul>
+            )}
+
+            <div className="btnWrap">
+              <button>자세히보기</button>
+              <button>공유하기</button>
+            </div>
+          </div>
+        );
+      }
+    }
+  };
+  return <DetailWrap>{render()}</DetailWrap>;
 };
 
 export default MapDetail;
