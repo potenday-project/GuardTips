@@ -78,12 +78,10 @@ const List = styled.li<IList>`
     flex-shrink: 0;
     border-radius: 0px 20px 20px 20px;
     background: ${(props) =>
-      props.color === "민방위대피소"
+      props.color === "민방위대피소" ||
+      props.color === "임시주거시설" ||
+      props.color === "지진 대피소"
         ? "#056fe7 no-repeat url('assets/icon/exit.png')"
-        : props.color === "임시주거시설"
-        ? "pink"
-        : props.color === "지진 대피소"
-        ? "yellow"
         : props.color === "급수시설"
         ? "#5EBBCB no-repeat url('assets/icon/drop.png')"
         : props.color === "병원"
