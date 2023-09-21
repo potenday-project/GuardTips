@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import { styled } from "styled-components";
 import Guide from "./pages/Guide/Guide";
 import Map from "./pages/Map/Map";
+import { Suspense } from "react";
 
 const AppWrap = styled.section`
   max-width: 430px;
@@ -22,7 +23,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />}></Route>
             <Route path="/guide" element={<Guide />}></Route>
-            <Route path="/map" element={<Map />}></Route>
+            <Route
+              path="/map"
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Map />
+                </Suspense>
+              }
+            ></Route>
 
             {/* 일치하는 라우터가 없는 경우 */}
             <Route path="*" element={<NotFound />}></Route>
