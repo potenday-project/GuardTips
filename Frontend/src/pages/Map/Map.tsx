@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import Header from "../../components/Header";
 import { useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Container as MapDiv,
@@ -10,11 +10,41 @@ import {
   useNavermaps,
 } from "react-naver-maps";
 import ListMenu from "./components/ListMenu";
+import MapDetail from "./components/MapDetail";
+import MapIcon from "./components/MapIcon";
+import axios from "axios";
 
 const MapWrap = styled.section`
   width: 100%;
   height: 100%;
   position: relative;
+  .marker {
+    width: 40.711px;
+    height: 40.711px;
+    transform: rotate(45deg);
+    border-radius: 30px 30px 0px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 50%;
+      height: 50%;
+      transform: rotate(-45deg);
+      object-fit: contain;
+    }
+  }
+  .exitMarker {
+    background: #056fe7;
+  }
+  .waterMarker {
+    background: #5ebbcb;
+  }
+  .medicineMarker {
+    background: #7750e7;
+  }
+  .hospitalMarker {
+    background: #ef4aad;
+  }
 `;
 
 const SearchModal = styled.div`
@@ -89,130 +119,6 @@ const MapContents = styled.div`
   }
 `;
 
-const IconWrap = styled.ul`
-  margin-top: 11px;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  li {
-    width: 50px;
-    height: 50px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0px 16px 16px 0px rgba(137, 137, 152, 0.1);
-    margin-bottom: 16px;
-    z-index: 99;
-  }
-  .icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .nowPlace {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 92px;
-    border-radius: 20px;
-    background: var(--W_00, #fff);
-    box-shadow: 0px 16px 16px 0px rgba(137, 137, 152, 0.1);
-    svg {
-      position: absolute;
-      right: 20px;
-      top: 20px;
-    }
-    .title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 20px 0px 20px 20px;
-      background: #056fe7;
-      width: 94px;
-      height: 92px;
-      flex-shrink: 0;
-      color: var(--W_00, #fff);
-      font: 600 20px "Pretendard";
-    }
-    .textWrap {
-      margin-left: 16px;
-      p {
-        color: var(--G_00, #000);
-        font: 600 16px/30px "Pretendard";
-      }
-      span {
-        color: var(--G_02, #8b8b92);
-        font: 600 16px "Pretendard";
-      }
-    }
-  }
-`;
-
-const DetailWrap = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 30px;
-  position: absolute;
-  bottom: 70px;
-  background: var(--W_00, #fff);
-  border-radius: 20px 20px 0px 0px;
-
-  svg {
-    float: inline-start;
-    margin-top: 4px;
-  }
-  .titleWrap {
-    margin-left: 12px;
-    display: inline-block;
-    h3 {
-      color: var(--G_00, #000);
-      font-family: "Giants";
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      display: inline-block;
-    }
-    .subTitle {
-      color: var(--main, #056fe7);
-      font-family: "Pretendard";
-      font-size: 14px;
-      font-weight: 400;
-      margin-bottom: 18px;
-    }
-  }
-  .detailList {
-    border-radius: 12px;
-    border: 1px solid var(--G_03, #d9d9d9);
-    padding: 20px;
-    li {
-      display: flex;
-      justify-content: space-between;
-      :first-child {
-        color: var(--G_02, #8b8b92);
-        font: 400 16px/24px "Pretendard";
-      }
-    }
-  }
-  .btnWrap {
-    width: 100%;
-    display: flex;
-    justify-content: end;
-    margin-top: 20px;
-    font: 600 18px/24px "Pretendard";
-    button {
-      display: inline-flex;
-      padding: 13px 34px;
-      border-radius: 8px;
-      border: 0;
-      background-color: transparent;
-    }
-    :nth-child(2) {
-      background: var(--main, #056fe7);
-      color: var(--W_00, #fff);
-    }
-  }
-`;
-
 export interface IData {
   order: number;
   name: string;
@@ -226,7 +132,6 @@ const Map = () => {
   const location = useLocation();
   const enterName = location.state;
   const [menuName, setMenuName] = useState("전체");
-  const [showNow, setShowNow] = useState(false);
 
   const [curPlace, setCurPlace] = useState<number[]>();
   const [tempData, setTempData] = useState<IData[]>([]);
@@ -237,6 +142,27 @@ const Map = () => {
   const [showDetail, setShowDetail] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [listName, setListName] = useState("");
+
+  const [dataArr, setDataArr] = useState();
+
+  useEffect(() => {
+    const getWaterApi = async () => {
+      const url =
+        "http://49.50.167.129:5000/waterworks?si=서울특별시&gu=종로구";
+      try {
+        const res = await await axios.get(`${url}`).then((res) => {
+          setDataArr(res.data);
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    if (enterName === "급수시설") {
+      getWaterApi();
+    }
+  }, []);
+
+  console.log(dataArr);
 
   useEffect(() => {
     setTempData([
@@ -259,6 +185,21 @@ const Map = () => {
         address: "서울특별시 용산구 한강로2가 1-0",
         code: [37.510997, 127.073642],
         type: "급수시설",
+        detail: {
+          place: "수정 아파트 지하1층 (공공시설)",
+          size: "611㎡",
+        },
+      },
+      {
+        order: 1341,
+        name: "역삼",
+        address: "서울특별시 용산구 한강로2가 1-0",
+        code: [37.500622, 127.036456],
+        type: "병원",
+        detail: {
+          place: "수정 아파트 지하1층 (공공시설)",
+          phone: "052-209-3688",
+        },
       },
       {
         order: 1456,
@@ -274,13 +215,7 @@ const Map = () => {
         code: [37.504503, 127.049008],
         type: "지진 대피소",
       },
-      {
-        order: 1341,
-        name: "역삼",
-        address: "서울특별시 용산구 한강로2가 1-0",
-        code: [37.500622, 127.036456],
-        type: "병원",
-      },
+
       {
         order: 65,
         name: "강남",
@@ -355,7 +290,6 @@ const Map = () => {
           style={{
             position: "absolute",
             width: "100%",
-            // height: "100vh",
           }}
           className="map"
         >
@@ -366,72 +300,36 @@ const Map = () => {
             minZoom={15}
             ref={setMap}
           >
-            {tempData.map((x) => {
+            {tempData.map((data) => {
               return (
                 <Marker
-                  key={x.name}
-                  position={new navermaps.LatLng(x.code[0], x.code[1])}
-                  title={x.name}
+                  key={data.name}
+                  position={new navermaps.LatLng(data.code[0], data.code[1])}
+                  title={data.name}
                   onClick={() => {
-                    onClick(x.code);
+                    onClick(data.code);
+                  }}
+                  icon={{
+                    content:
+                      data.type === "민방위대피소"
+                        ? `<div class="marker exitMarker"><img src="assets/icon/exit.png" alt=${data.type} /></div>`
+                        : data.type === "급수시설"
+                        ? `<div class="marker waterMarker"><img src="assets/icon/drop.png" alt=${data.type} /></div>`
+                        : data.type === "약국"
+                        ? `<div class="marker medicineMarker"><img src="assets/icon/medicine.png" alt=${data.type} /></div>`
+                        : data.type === "병원"
+                        ? `<div class="marker hospitalMarker"><img src="assets/icon/hospital.png" alt=${data.type} /></div>`
+                        : `<div></div>`,
                   }}
                 />
               );
             })}
             {showDetail ? (
-              <DetailWrap>
-                {tempData.map((x) => {
-                  if (x.name === listName) {
-                    return (
-                      <div key={x.name}>
-                        <svg
-                          onClick={() => setShowDetail(false)}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="11"
-                          height="20"
-                          viewBox="0 0 11 20"
-                          fill="none"
-                        >
-                          <path
-                            d="M10 19L1 10L10 0.999999"
-                            stroke="black"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                        <div className="titleWrap">
-                          <h3>{x.name}</h3>
-                          <p className="subTitle">{x.address}</p>
-                        </div>
-
-                        <ul className="detailList">
-                          <li>
-                            <p>시설</p>
-                            <p>{x.detail ? x.detail["place"] : null}</p>
-                          </li>
-                          <li>
-                            <p>규모</p>
-                            <p>{x.detail ? x.detail["size"] : null}</p>
-                          </li>
-                          <li>
-                            <p>최대 수용인원</p>
-                            <p>{x.detail ? x.detail["people"] : null}</p>
-                          </li>
-                          <li>
-                            <p>전화번호</p>
-                            <p>{x.detail ? x.detail["phone"] : null}</p>
-                          </li>
-                        </ul>
-                        <div className="btnWrap">
-                          <button>자세히보기</button>
-                          <button>공유하기</button>
-                        </div>
-                      </div>
-                    );
-                  }
-                })}
-              </DetailWrap>
+              <MapDetail
+                dataArr={tempData}
+                listName={listName}
+                setShowDetail={setShowDetail}
+              />
             ) : (
               <ListMenu
                 dataArr={tempData}
@@ -443,61 +341,12 @@ const Map = () => {
             )}
           </NaverMap>
         </MapDiv>
-        <IconWrap>
-          {showNow ? (
-            <li className="nowPlace">
-              <div className="title">내 위치</div>
-              <div className="textWrap">
-                <p>
-                  <span>위도(y) </span>
-                  {curPlace ? curPlace[0] : 0}
-                </p>
-                <p>
-                  <span>경도(x)</span>
-                  {curPlace ? curPlace[1] : 0}
-                </p>
-              </div>
-
-              <svg
-                onClick={() => setShowNow(false)}
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="8"
-                viewBox="0 0 14 8"
-                fill="none"
-              >
-                <path
-                  d="M1 7L7 1L13 7"
-                  stroke="black"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </li>
-          ) : (
-            <li className="icon" onClick={() => setShowNow(true)}>
-              <img src="assets/icon/location.png" alt="내 위치" />
-            </li>
-          )}
-          <li
-            className="icon"
-            onClick={() => {
-              onClick([37.3595704, 127.105399]);
-              setShowDetail(false);
-            }}
-          >
-            <img src="assets/icon/reset.png" alt="위치 재설정" />
-          </li>
-          <li
-            className="icon"
-            onClick={() => {
-              setShowSearch(true);
-            }}
-          >
-            <img src="assets/icon/search.png" alt="검색" />
-          </li>
-        </IconWrap>
+        <MapIcon
+          curPlace={curPlace}
+          onClick={onClick}
+          setShowDetail={setShowDetail}
+          setShowSearch={setShowSearch}
+        />
         {showSearch ? (
           <SearchModal>
             <div
