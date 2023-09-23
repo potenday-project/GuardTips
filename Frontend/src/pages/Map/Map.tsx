@@ -131,7 +131,7 @@ const Map = () => {
   // 라우터로 받아온 정보
   const location = useLocation();
   const enterName = location.state;
-  console.log(enterName);
+
   // 지도
   const [mapRef, setMapRef] = useState<any>(null);
   const navermaps = useNavermaps();
@@ -227,7 +227,6 @@ const Map = () => {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude,
     });
-    console.log("Coordinates: " + location.toString());
   }
 
   function onErrorGeolocation() {

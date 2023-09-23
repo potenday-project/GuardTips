@@ -35,7 +35,6 @@ const GuideDetail = () => {
   // 라우터로 받아온 정보
   const location = useLocation();
   const enterName = location.state;
-  console.log(enterName);
 
   const [imgData, setImgData] = useState();
 
