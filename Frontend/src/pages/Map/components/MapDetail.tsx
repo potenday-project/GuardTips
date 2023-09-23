@@ -1,6 +1,14 @@
 import { styled } from "styled-components";
-import { IData } from "../Map";
 import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  categoryNameAtom,
+  dataArrAtom,
+  listNameAtom,
+  showDetailAtom,
+} from "../../../recoil/atom";
+import CopyClipBoard from "../../../components/CopyClipBoard";
+import { IData } from "../Map";
 
 const DetailWrap = styled.div`
   width: 100%;
@@ -22,6 +30,10 @@ const DetailWrap = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    p {
+      width: 88% !important;
+      text-align: start !important;
+    }
     span {
       width: 20px;
       height: 20px;
@@ -37,9 +49,14 @@ const DetailWrap = styled.div`
     margin-top: 4px;
   }
   .titleWrap {
+    width: 345px;
     margin-left: 12px;
     display: inline-block;
     h3 {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       color: var(--G_00, #000);
       font-family: "Giants";
       font-size: 22px;
@@ -48,12 +65,19 @@ const DetailWrap = styled.div`
       display: inline-block;
     }
     .subTitle {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       color: var(--main, #056fe7);
       font-family: "Pretendard";
       font-size: 14px;
       font-weight: 400;
       margin-bottom: 18px;
     }
+  }
+  .addressWrap {
+    display: flex;
+    justify-content: flex-start;
   }
   .detailList {
     border-radius: 12px;
@@ -62,10 +86,17 @@ const DetailWrap = styled.div`
     li {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
+      margin-bottom: 3px;
+      p {
+        width: 80%;
+        text-align: end;
+        word-break: keep-all;
+      }
       span {
         color: var(--G_02, #8b8b92);
         font: 400 16px/24px "Pretendard";
+        word-break: keep-all;
       }
     }
   }
@@ -87,103 +118,312 @@ const DetailWrap = styled.div`
       color: var(--W_00, #fff);
     }
   }
+  .badgeWrap {
+    position: absolute;
+    top: -25px;
+    right: 30px;
+    border-radius: 20px 20px 0px 0px;
+    background: #aacaf0;
+    display: inline-flex;
+    padding: 2px 18px;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: -0.35px;
+    font: 600 14px/150.023% "Pretendard";
+  }
 `;
 
-interface IMapDetail {
-  dataArr: IData[];
-  listName: string;
-  setShowDetail: any;
+interface IDetail {
+  dataArr: IData | undefined;
+  wholeData:
+    | {
+        [key: string]: string | number;
+        tag: string;
+        title: string;
+        address: string;
+      }[]
+    | undefined;
 }
 
-const MapDetail = ({ dataArr, listName, setShowDetail }: IMapDetail) => {
-  const render = () => {
-    for (let i = 0; i < dataArr.length; i++) {
-      if (dataArr[i].name === listName) {
-        let data = dataArr[i];
-        return (
-          <div key={data.name}>
-            <svg
-              onClick={() => setShowDetail(false)}
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="20"
-              viewBox="0 0 11 20"
-              fill="none"
-            >
-              <path
-                d="M10 19L1 10L10 0.999999"
-                stroke="black"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div className="titleWrap">
-              <h3>{data.name}</h3>
-              <p className="subTitle">{data.address}</p>
-            </div>
-            {data.detail && data.type === "민방위대피소" ? (
-              <ul className="detailList">
-                <li>
-                  <span>시설</span>
-                  <p>{data.detail["place"]}</p>
-                </li>
-                <li>
-                  <span>규모</span>
-                  <p>{data.detail["size"]}</p>
-                </li>
-                <li>
-                  <span>최대 수용인원</span>
-                  <p>{data.detail["people"]}</p>
-                </li>
-                <li>
-                  <span>전화번호</span>
-                  <p>{data.detail["phone"]}</p>
-                </li>
-              </ul>
-            ) : data.detail && data.type === "급수시설" ? (
-              <ul className="detailList">
-                <li>
-                  <span>시설</span>
-                  <p>{data.detail["place"]}</p>
-                </li>
-                <li>
-                  <span>규모</span>
-                  <p>{data.detail["size"]}</p>
-                </li>
-                <li>
-                  <div className="waterDetail">
-                    <span>
-                      <img src="assets/icon/alert.png" alt="alert" />
-                    </span>
-                    <p>
-                      호수, 분수대, 하천, 개울물로 식수 사용은
-                      <br /> 감염의 위험이 있어 급수시설 이용을 추천드립니다.
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            ) : data.detail && data.type === "병원" ? (
-              <ul className="detailList">
-                <li>
-                  <span>시설</span>
-                  <p>{data.detail["place"]}</p>
-                </li>
-                <li>
-                  <span>전화번호</span>
-                  <p>{data.detail["phone"]}</p>
-                </li>
-              </ul>
-            ) : (
-              <ul>정보 준비중입니다.</ul>
-            )}
+const MapDetail = ({ dataArr, wholeData }: IDetail) => {
+  const setShowDetail = useSetRecoilState(showDetailAtom);
+  const listName = useRecoilValue(listNameAtom);
+  const categoryName = useRecoilValue(categoryNameAtom);
 
-            <div className="btnWrap">
-              <button>자세히보기</button>
-              <button>공유하기</button>
+  const render = () => {
+    if (dataArr && categoryName === "급수시설") {
+      for (let i = 0; i < dataArr.waterworks.length; i++) {
+        if (dataArr.waterworks[i].title === listName) {
+          let data = dataArr.waterworks[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <p className="subTitle">
+                  {data.address}
+                  <CopyClipBoard text={data.address} />
+                </p>
+              </div>
+              {data.tag === "급수시설" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <div className="waterDetail">
+                      <span>
+                        <img src="assets/icon/alert.png" alt="alert" />
+                      </span>
+                      <p>
+                        호수, 분수대, 하천, 개울물로 식수 사용은
+                        <br /> 감염의 위험이 있어 급수시설 이용을 추천드립니다.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button>공유하기</button>
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
+      }
+    } else if (dataArr && categoryName === "전체 대피소") {
+      for (let i = 0; i < dataArr.shelter.length; i++) {
+        if (dataArr.shelter[i].title === listName) {
+          let data = dataArr.shelter[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "대피소" || data.tag === "지진옥외" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <span>최대 수용인원</span>
+                    <p>{data.address}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                  {data.badge != "-" ? (
+                    <div className="badgeWrap">{data.badge}</div>
+                  ) : null}
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button>공유하기</button>
+              </div>
+            </div>
+          );
+        }
+      }
+    } else if (dataArr && categoryName === "병원&약국") {
+      for (let i = 0; i < dataArr.hospital.length; i++) {
+        if (dataArr.hospital[i].title === listName) {
+          let data = dataArr.hospital[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "병원" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button>공유하기</button>
+              </div>
+            </div>
+          );
+        }
+      }
+    } else if (dataArr && wholeData && categoryName === "전체") {
+      for (let i = 0; i < wholeData.length; i++) {
+        if (wholeData[i].title === listName) {
+          let data = wholeData[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "대피소" || data.tag === "지진옥외" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <span>최대 수용인원</span>
+                    <p>{data.address}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                  {data.badge != "-" ? (
+                    <div className="badgeWrap">{data.badge}</div>
+                  ) : null}
+                </ul>
+              ) : data.tag === "급수시설" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <div className="waterDetail">
+                      <span>
+                        <img src="assets/icon/alert.png" alt="alert" />
+                      </span>
+                      <p>
+                        호수, 분수대, 하천, 개울물로 식수 사용은
+                        <br /> 감염의 위험이 있어 급수시설 이용을 추천드립니다.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              ) : data.tag === "병원" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.tel}</p>
+                  </li>
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button>공유하기</button>
+              </div>
+            </div>
+          );
+        }
       }
     }
   };

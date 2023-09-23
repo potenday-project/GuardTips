@@ -1,6 +1,13 @@
 import { styled } from "styled-components";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  categoryNameAtom,
+  dataArrAtom,
+  listNameAtom,
+} from "../../../recoil/atom";
+import CopyClipBoard from "../../../components/CopyClipBoard";
 import { IData } from "../Map";
-import { useState } from "react";
 
 interface IList {
   color: string;
@@ -61,14 +68,24 @@ const List = styled.li<IList>`
   border: 1px solid var(--G_03, #d9d9d9);
   background: var(--W_00, #fff);
   box-sizing: border-box;
+
   h3 {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: var(--Sub_01, var(--G_00, #000));
     font: 600 18px/24px "Pretendard";
   }
   p {
+    width: 230px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: var(--main, #056fe7);
     font: 400 14px "Pretendard";
   }
+
   .label {
     position: absolute;
     top: 0;
@@ -80,7 +97,9 @@ const List = styled.li<IList>`
     background: ${(props) =>
       props.color === "민방위대피소" ||
       props.color === "임시주거시설" ||
-      props.color === "지진 대피소"
+      props.color === "지진 대피소" ||
+      props.color === "대피소" ||
+      props.color === "지진옥외"
         ? "#056fe7 no-repeat url('assets/icon/exit.png')"
         : props.color === "급수시설"
         ? "#5EBBCB no-repeat url('assets/icon/drop.png')"
@@ -90,6 +109,9 @@ const List = styled.li<IList>`
         ? "#7750E7 no-repeat url('assets/icon/medicine.png')"
         : null};
     background-position: center;
+  }
+  .copy {
+    display: inline-block;
   }
 `;
 
@@ -105,24 +127,28 @@ const ListWrap = styled.div`
   }
   ul {
   }
+  .addressWrap {
+    display: flex;
+  }
 `;
 
 interface IListMenu {
-  dataArr: IData[];
-  menuName: string;
   clickEvent: any;
-  setMenuName: any;
-  setListName: any;
+  dataArr: IData | undefined;
+  wholeData:
+    | {
+        [key: string]: string | number;
+        tag: string;
+        title: string;
+        address: string;
+      }[]
+    | undefined;
 }
 
-const ListMenu = ({
-  dataArr,
-  menuName,
-  clickEvent,
-  setMenuName,
-  setListName,
-}: IListMenu) => {
+const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [categoryName, setCategoryName] = useRecoilState(categoryNameAtom);
+  const setListName = useSetRecoilState(listNameAtom);
 
   const menuList = [
     "전체",
@@ -138,29 +164,15 @@ const ListMenu = ({
     const {
       currentTarget: { innerText },
     } = e;
-    setMenuName(innerText);
+    setCategoryName(innerText);
     setShowMenu(false);
   };
 
-  const filterData = dataArr.filter((data) => {
-    if (menuName === "전체") {
-      return data;
-    } else if (menuName === "전체 대피소") {
-      return (
-        data.type.includes("민방위대피소") ||
-        data.type.includes("지진 대피소") ||
-        data.type.includes("임시주거시설")
-      );
-    } else if (menuName === "병원&약국") {
-      return data.type.includes("병원") || data.type.includes("약국");
-    }
-    return data.type.includes(menuName);
-  });
   return (
     <ContentsWrap>
       <SelectWrap>
         <h3 onClick={() => setShowMenu((prev) => !prev)}>
-          {menuName}{" "}
+          {categoryName}{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="15"
@@ -184,7 +196,7 @@ const ListMenu = ({
               return (
                 <li
                   key={menu}
-                  className={menuName === menu ? "active" : undefined}
+                  className={categoryName === menu ? "active" : undefined}
                   onClick={menuClick}
                 >
                   {menu}
@@ -196,22 +208,88 @@ const ListMenu = ({
       </SelectWrap>
       <ListWrap>
         <ul>
-          {filterData.map((data, index) => {
-            return (
-              <List
-                key={index}
-                color={data.type}
-                onClick={(e) => {
-                  clickEvent(data.code);
-                  setListName(data.name);
-                }}
-              >
-                <h3>{data.name}</h3>
-                <p>{data.address}</p>
-                <div className="label"></div>
-              </List>
-            );
-          })}
+          {dataArr && categoryName === "급수시설"
+            ? dataArr.waterworks.map((data, index) => {
+                return (
+                  <List
+                    key={index}
+                    color={data.tag}
+                    onClick={(e) => {
+                      clickEvent([data.latitude, data.longitude]);
+                      setListName(data.title);
+                    }}
+                  >
+                    <h3>{data.title}</h3>
+                    <div className="addressWrap">
+                      <p>{data.address}</p>
+                      <CopyClipBoard text={data.address} />
+                    </div>
+                    <div className="label"></div>
+                  </List>
+                );
+              })
+            : dataArr && categoryName === "전체 대피소"
+            ? dataArr.shelter.map((data, index) => {
+                return (
+                  <List
+                    key={index}
+                    color={data.tag}
+                    onClick={(e) => {
+                      clickEvent([data.latitude, data.longitude]);
+                      setListName(data.title);
+                    }}
+                  >
+                    <h3>{data.title}</h3>
+                    <div className="addressWrap">
+                      <p>{data.address}</p>
+                      <CopyClipBoard text={data.address} />
+                    </div>
+                    <div className="label"></div>
+                  </List>
+                );
+              })
+            : dataArr && categoryName === "병원&약국"
+            ? dataArr.hospital.map((data, index) => {
+                return (
+                  <List
+                    key={index}
+                    color={data.tag}
+                    onClick={(e) => {
+                      clickEvent([data.latitude, data.longitude]);
+                      setListName(data.title);
+                    }}
+                  >
+                    <h3>{data.title}</h3>
+                    <div className="addressWrap">
+                      <p>{data.address}</p>
+                      <CopyClipBoard text={data.address} />
+                    </div>
+
+                    <div className="label"></div>
+                  </List>
+                );
+              })
+            : dataArr && categoryName === "전체"
+            ? wholeData?.map((data, index) => {
+                return (
+                  <List
+                    key={index}
+                    color={data.tag}
+                    onClick={(e) => {
+                      clickEvent([data.latitude, data.longitude]);
+                      setListName(data.title);
+                    }}
+                  >
+                    <h3>{data.title}</h3>
+                    <div className="addressWrap">
+                      <p>{data.address}</p>
+                      <CopyClipBoard text={data.address} />
+                    </div>
+                    <div className="label"></div>
+                  </List>
+                );
+              })
+            : null}
         </ul>
       </ListWrap>
     </ContentsWrap>
