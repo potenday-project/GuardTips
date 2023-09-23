@@ -16,7 +16,10 @@ const ContentsWrap = styled.div`
   padding: 0 30px;
 `;
 
-const BannerWrap = styled.div`
+interface IBanner {
+  name: string;
+}
+const BannerWrap = styled.div<IBanner>`
   position: relative;
   width: 100%;
   display: flex;
@@ -25,7 +28,14 @@ const BannerWrap = styled.div`
     width: 90%;
     height: 200px;
     border-radius: 40px 0px 40px 40px;
-    background: url("assets/icon/disaster_bg.png") no-repeat;
+    background: ${(props) =>
+      props.name === "재난대처"
+        ? "url('assets/icon/disaster_bg.png') no-repeat"
+        : props.name === "응급처치"
+        ? "url('assets/icon/firstaid_bg.png') no-repeat"
+        : props.name === "생존배낭"
+        ? "url('assets/icon/GHB_bg.png') no-repeat"
+        : null};
     background-size: contain;
     .imgWrap {
       width: 145px;
@@ -73,10 +83,16 @@ const Guide = () => {
   return (
     <GuideWrap>
       <Header title="가이드" />
-      <BannerWrap>
+      <BannerWrap name={name}>
         <div className="background">
           <div className="imgWrap">
-            <img src="assets/siren.png" alt="" />
+            {name === "재난대처" ? (
+              <img src="assets/siren.png" alt="" />
+            ) : name === "응급처치" ? (
+              <img src="assets/firstaid.png" alt="" />
+            ) : name === "생존배낭" ? (
+              <img src="assets/bag.png" alt="" />
+            ) : null}
           </div>
         </div>
       </BannerWrap>
