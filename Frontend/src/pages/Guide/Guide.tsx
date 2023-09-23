@@ -25,12 +25,18 @@ const BannerWrap = styled.div`
     width: 90%;
     height: 200px;
     border-radius: 40px 0px 40px 40px;
-    background: #e8008b
-      radial-gradient(
-        268.28% 100% at 50% 0%,
-        rgba(255, 255, 255, 0.32) 0%,
-        rgba(255, 255, 255, 0) 100%
-      );
+    background: url("assets/icon/disaster_bg.png") no-repeat;
+    background-size: contain;
+    .imgWrap {
+      width: 145px;
+      position: absolute;
+      right: 50px;
+      bottom: -30px;
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
   }
 `;
 
@@ -55,8 +61,6 @@ const Guide = () => {
   const enterName = location.state;
   const [name, setName] = useState(enterName);
 
-  console.log(enterName);
-
   const data = ["재난대처", "응급처치", "생존배낭"];
   let history = useNavigate();
   const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -70,7 +74,11 @@ const Guide = () => {
     <GuideWrap>
       <Header title="가이드" />
       <BannerWrap>
-        <div className="background"></div>
+        <div className="background">
+          <div className="imgWrap">
+            <img src="assets/siren.png" alt="" />
+          </div>
+        </div>
       </BannerWrap>
       <ContentsWrap>
         <TabWrap>

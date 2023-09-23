@@ -108,7 +108,7 @@ const GHB = () => {
           <h3>비상식량</h3>
           {mockData.food.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
@@ -119,7 +119,7 @@ const GHB = () => {
           <h3>체온유지 용품</h3>
           {mockData.temp.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
@@ -130,7 +130,7 @@ const GHB = () => {
           <h3>구조용품</h3>
           {mockData.sos.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
@@ -141,7 +141,7 @@ const GHB = () => {
           <h3>통신기</h3>
           {mockData.tel.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
@@ -152,7 +152,7 @@ const GHB = () => {
           <h3>구급약</h3>
           {mockData.medi.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
@@ -163,7 +163,7 @@ const GHB = () => {
           <h3>기타</h3>
           {mockData.etc.map((x) => {
             return (
-              <CheckBoxWrap>
+              <CheckBoxWrap key={x}>
                 <CheckBoxInput type="checkbox" id={x} />
                 <CheckBoxLabel htmlFor={x}>{x}</CheckBoxLabel>
               </CheckBoxWrap>
