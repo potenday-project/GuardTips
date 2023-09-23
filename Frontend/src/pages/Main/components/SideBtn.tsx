@@ -15,7 +15,6 @@ const SideBtnWrap = styled.ul`
     div {
       position: relative;
       width: 100%;
-      border: dashed 1px;
 
       img {
         width: 100%;
@@ -25,6 +24,9 @@ const SideBtnWrap = styled.ul`
     }
     p {
       text-align: center;
+      color: var(--G_01, #717175);
+      font: 700 18px "Giants";
+      margin-top: 12px;
     }
   }
 `;
