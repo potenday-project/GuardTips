@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const HeaderWrap = styled.section`
+interface IHeaderStyle {
+  isTitleDisplay?: boolean;
+}
+
+const HeaderWrap = styled.section<IHeaderStyle>`
   background: #fbfbfc;
-  box-shadow: 0px 16px 16px 0px rgba(0, 0, 0, 0.07);
+  box-shadow: ${(props) =>
+    props.isTitleDisplay ? "0px 16px 16px 0px rgba(0, 0, 0, 0.07)" : null};
   width: 100%;
   height: 70px;
   position: relative;
@@ -31,9 +37,15 @@ interface IHeader {
 }
 
 const Header = ({ title }: IHeader) => {
+  const [isTitleDisplay, setTitleDisplay] = useState(true);
+  useEffect(() => {
+    if (title === "") {
+      setTitleDisplay(false);
+    }
+  }, []);
   let history = useNavigate();
   return (
-    <HeaderWrap>
+    <HeaderWrap isTitleDisplay={isTitleDisplay}>
       <div
         onClick={() => {
           history(-1);
@@ -56,7 +68,7 @@ const Header = ({ title }: IHeader) => {
         </svg>
       </div>
 
-      <h2>{title}</h2>
+      <h2>{isTitleDisplay ? title : null}</h2>
     </HeaderWrap>
   );
 };

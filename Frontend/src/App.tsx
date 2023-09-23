@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 import Guide from "./pages/Guide/Guide";
 import Map from "./pages/Map/Map";
 import { Suspense } from "react";
+import GuideDetail from "./pages/Guide/GuideDetail";
 
 const AppWrap = styled.section`
   max-width: 430px;
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />}></Route>
             <Route path="/guide" element={<Guide />}></Route>
+            <Route path="/guide/:id" element={<GuideDetail />}></Route>
             <Route
               path="/map"
               element={
