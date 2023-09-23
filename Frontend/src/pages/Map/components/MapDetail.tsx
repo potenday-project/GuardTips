@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   categoryNameAtom,
   dataArrAtom,
@@ -146,9 +146,15 @@ interface IDetail {
 }
 
 const MapDetail = ({ dataArr, wholeData }: IDetail) => {
-  const setShowDetail = useSetRecoilState(showDetailAtom);
+  const [showDetail, setShowDetail] = useRecoilState(showDetailAtom);
   const listName = useRecoilValue(listNameAtom);
   const categoryName = useRecoilValue(categoryNameAtom);
+
+  useEffect(() => {
+    return () => {
+      setShowDetail(false);
+    };
+  }, []);
 
   const render = () => {
     if (dataArr && categoryName === "급수시설") {
