@@ -150,6 +150,19 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
   const listName = useRecoilValue(listNameAtom);
   const categoryName = useRecoilValue(categoryNameAtom);
 
+  const handle = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "GuardTips",
+          text: "GuardTips : 안전에 관한 유용한 조언과 팁 제공",
+          url: "https://",
+        })
+        .then(() => console.log("공유 성공"))
+        .catch((error) => console.log("공유 실패", error));
+    }
+  };
+
   useEffect(() => {
     return () => {
       setShowDetail(false);
@@ -214,7 +227,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -277,7 +296,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -329,7 +354,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -425,7 +456,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
