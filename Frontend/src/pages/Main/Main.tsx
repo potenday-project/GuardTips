@@ -7,6 +7,7 @@ const MainWrap = styled.div`
   padding: 20px;
   height: 100%;
   background: linear-gradient(180deg, #fcfcfc 0%, #e9e9f4 100%);
+  position: relative;
 `;
 
 const TapMenuWrap = styled.div`
@@ -45,9 +46,9 @@ const Main = () => {
     { name: "병원&약국", btn: "purple", img: "assets/pharmacy.png" },
   ];
   const mapSide = [
-    { name: "생존배낭" },
-    { name: "재난대처" },
-    { name: "응급처치" },
+    { name: "생존배낭", img: "assets/icon/bag_grey.png" },
+    { name: "재난대처", img: "assets/icon/siren_grey.png" },
+    { name: "응급처치", img: "assets/icon/medicine_kit_grey.png" },
   ];
 
   const guideMain = [
@@ -57,10 +58,10 @@ const Main = () => {
   ];
 
   const guideSide = [
-    { name: "대피 시설" },
-    { name: "출동차량" },
-    { name: "급수시설" },
-    { name: "병원&약국" },
+    { name: "대피 시설", img: "assets/icon/exit_grey.png" },
+    { name: "출동차량", img: "assets/icon/ambulance_grey.png" },
+    { name: "급수시설", img: "assets/icon/drop_grey.png" },
+    { name: "병원&약국", img: "assets/icon/medicine_grey.png" },
   ];
 
   return (

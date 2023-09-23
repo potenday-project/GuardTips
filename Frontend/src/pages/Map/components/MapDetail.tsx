@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   categoryNameAtom,
   dataArrAtom,
@@ -146,9 +146,28 @@ interface IDetail {
 }
 
 const MapDetail = ({ dataArr, wholeData }: IDetail) => {
-  const setShowDetail = useSetRecoilState(showDetailAtom);
+  const [showDetail, setShowDetail] = useRecoilState(showDetailAtom);
   const listName = useRecoilValue(listNameAtom);
   const categoryName = useRecoilValue(categoryNameAtom);
+
+  const handle = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: "GuardTips",
+          text: "GuardTips : 안전에 관한 유용한 조언과 팁 제공",
+          url: "https://",
+        })
+        .then(() => console.log("공유 성공"))
+        .catch((error) => console.log("공유 실패", error));
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      setShowDetail(false);
+    };
+  }, []);
 
   const render = () => {
     if (dataArr && categoryName === "급수시설") {
@@ -208,7 +227,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -271,7 +296,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -323,7 +354,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
@@ -419,7 +456,13 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
 
               <div className="btnWrap">
                 <button>자세히보기</button>
-                <button>공유하기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
               </div>
             </div>
           );
