@@ -34,7 +34,7 @@ const BannerWrap = styled.div<IBanner>`
         : props.name === "응급처치"
         ? "url('assets/icon/firstaid_bg.png') no-repeat"
         : props.name === "생존배낭"
-        ? "url('assets/icon/GHB_bg.png') no-repeat"
+        ? "url('assets/icon/ghb_bg.png') no-repeat"
         : null};
     background-size: contain;
     .imgWrap {
