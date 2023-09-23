@@ -1,5 +1,11 @@
 import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
+import {
+  curLocationAtom,
+  showDetailAtom,
+  showSearchAtom,
+} from "../../../recoil/atom";
 
 const IconWrap = styled.ul`
   margin-top: 11px;
@@ -62,18 +68,14 @@ const IconWrap = styled.ul`
 
 interface IMapIcon {
   curPlace: number[] | undefined;
-  onClick: any;
-  setShowDetail: any;
-  setShowSearch: any;
+  clickEvent: any;
 }
 
-const MapIcon = ({
-  curPlace,
-  onClick,
-  setShowDetail,
-  setShowSearch,
-}: IMapIcon) => {
+const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
   const [showNow, setShowNow] = useState(false);
+  const setShowDetail = useSetRecoilState(showDetailAtom);
+  const setShowSearch = useSetRecoilState(showSearchAtom);
+  const curLocation = useRecoilValue(curLocationAtom);
 
   return (
     <IconWrap>
@@ -86,7 +88,7 @@ const MapIcon = ({
               {curPlace ? curPlace[0] : 0}
             </p>
             <p>
-              <span>경도(x)</span>
+              <span>경도(x) </span>
               {curPlace ? curPlace[1] : 0}
             </p>
           </div>
@@ -116,7 +118,7 @@ const MapIcon = ({
       <li
         className="icon"
         onClick={() => {
-          onClick([37.3595704, 127.105399]);
+          clickEvent([curLocation.latitude, curLocation.longitude]);
           setShowDetail(false);
         }}
       >
