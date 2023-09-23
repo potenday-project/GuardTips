@@ -9,6 +9,7 @@ import Header from "../../components/Header";
 
 const GuideWrap = styled.section`
   width: 100%;
+  background: linear-gradient(180deg, #fbfbfc 0%, #ebebf5 100%);
 `;
 
 const ContentsWrap = styled.div`
