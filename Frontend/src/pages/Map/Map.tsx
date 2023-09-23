@@ -195,7 +195,7 @@ const Map = () => {
   // api test
   const [dataArr, setDataArr] = useState<IData>();
   useEffect(() => {
-    const apiUrl = "http://49.50.167.129:5000/api";
+    const apiUrl = "https://49.50.167.129:5000/api";
     let longitude = myLocation.longitude;
     let latitude = myLocation.latitude;
     const getApi = async () => {
