@@ -12,10 +12,28 @@ const SideBtnWrap = styled.ul`
     padding: 1rem 0;
     transform: translate(0, 0);
     flex: 0 0 auto;
+    .imgWrap {
+      width: 100%;
+      height: 112px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("assets/folder.png") no-repeat;
+      background-size: contain;
+      div {
+        width: 40px;
+        height: 36px;
+        margin-top: 10px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
     div {
       position: relative;
       width: 100%;
-
       img {
         width: 100%;
         height: 100%;
@@ -49,8 +67,11 @@ const SideBtn = ({ sideData, name }: ISideBtn) => {
       {sideData.map((x) => {
         return (
           <li key={x.name} onClick={() => onClick(x.name)}>
-            <div>
-              <img src="assets/folder.png" alt="" />
+            <div className="imgWrap">
+              {/* <img src="assets/folder.png" alt="" /> */}
+              <div>
+                <img src={x.img} alt="" />
+              </div>
             </div>
             <p>{x.name}</p>
           </li>

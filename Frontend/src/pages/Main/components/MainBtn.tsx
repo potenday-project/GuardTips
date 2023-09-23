@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const MainBtnWrap = styled.ul`
   display: flex;
@@ -79,6 +80,84 @@ export const MainBtnWrap = styled.ul`
         rgba(255, 255, 255, 0) 100%
       );
   }
+  .carModalWrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 430px;
+    height: 932px;
+    z-index: 99;
+    display: flex;
+    justify-content: center;
+    .bg {
+      background: rgba(52, 52, 52, 0.6);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .modal {
+      position: absolute;
+      width: 380px;
+      height: 213px;
+      padding: 30px;
+      margin-top: 150px;
+      border-radius: 12px;
+      background: var(--W_00, #fff);
+      z-index: 100;
+    }
+    input {
+      border-radius: 8px;
+      border: 1px solid var(--G_03, #d9d9d9);
+    }
+    .btnWrap {
+      display: flex;
+      justify-content: end;
+      font: 600 18px/24px "Pretendard";
+      button {
+        display: inline-flex;
+        padding: 13px 34px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        border: 0;
+      }
+      :nth-child(2) {
+        background: var(--main, #056fe7);
+        margin-left: 14px;
+        color: var(--W_00, #fff);
+      }
+    }
+    h3 {
+      color: #050505;
+      letter-spacing: -0.44px;
+      text-transform: uppercase;
+      font: 700 22px "Giants";
+      margin-bottom: 14px;
+    }
+    input {
+      display: flex;
+      width: 310px;
+      padding: 13px 105px 13px 15px;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .notice {
+      display: flex;
+      width: 370px;
+      height: 73px;
+      margin-top: 400px;
+      padding: 28px 61px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      background: var(--W_00, #fff);
+      z-index: 2;
+      box-shadow: 0px 16px 16px 0px rgba(137, 137, 152, 0.1);
+    }
+  }
 `;
 
 const ImgWrap = styled.div`
@@ -101,9 +180,11 @@ interface IMainBtn {
 }
 
 const MainBtn = ({ mainData, name }: IMainBtn) => {
+  const [carModal, setCarModal] = useState(false);
   const navigate = useNavigate();
   const onClick = (x: string) => {
     if (x.includes("출동차량")) {
+      setCarModal(true);
       return;
     }
     navigate(`/${name}`, { state: x });
@@ -124,6 +205,31 @@ const MainBtn = ({ mainData, name }: IMainBtn) => {
             </li>
           );
         })}
+        {carModal ? (
+          <div className="carModalWrap">
+            <div
+              className="bg"
+              onClick={() => {
+                setCarModal(false);
+              }}
+            ></div>
+            <div className="modal">
+              <h3>출동차량 위치 확인</h3>
+              <input type="text" placeholder="신고자분 전화번호 입력" />
+              <div className="btnWrap">
+                <button
+                  onClick={() => {
+                    setCarModal(false);
+                  }}
+                >
+                  취소
+                </button>
+                <button>검색</button>
+              </div>
+            </div>
+            <div className="notice">서비스 준비중입니다!</div>
+          </div>
+        ) : null}
       </MainBtnWrap>
     </>
   );
