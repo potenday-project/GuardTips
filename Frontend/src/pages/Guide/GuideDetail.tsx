@@ -39,9 +39,9 @@ const GuideDetail = () => {
   const [imgData, setImgData] = useState();
 
   useEffect(() => {
-    const apiUrl = "http://49.50.167.129:5001/images";
+    const apiUrl = "https://49.50.167.129:5001/images";
     const getApi = async () => {
-      const url = `${apiUrl}/${enterName}.png
+      const url = `${apiUrl}/${enterName}.jpg
       `;
       try {
         const res = await await axios.get(`${url}`).then((res) => {

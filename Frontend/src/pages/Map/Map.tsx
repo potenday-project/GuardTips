@@ -194,6 +194,8 @@ const Map = () => {
 
   // api test
   const [dataArr, setDataArr] = useState<IData>();
+  axios.defaults.withCredentials = true;
+  axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
   useEffect(() => {
     const apiUrl = "https://49.50.167.129:5000/api";
     let longitude = myLocation.longitude;
