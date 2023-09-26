@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api",
-      "destination": "http://43.200.20.25:8080/api?"
+      "destination": "https://www.guardsafe.store/api?"
     }
   ]
 }
