@@ -194,15 +194,14 @@ const Map = () => {
 
   // api test
   const [dataArr, setDataArr] = useState<IData>();
-  // axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
   axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
   useEffect(() => {
-    const apiUrl = "https://www.guardsafe.store/api";
+    const apiUrl = "https://www.guardsafe.store";
     let longitude = myLocation.longitude;
     let latitude = myLocation.latitude;
-
     const getApi = async () => {
-      const url = `${apiUrl}?longitude=${longitude}&latitude=${latitude}`;
+      const url = `/api?longitude=${longitude}&latitude=${latitude}`;
       try {
         const res = await await axios.get(`${url}`).then((res) => {
           setDataArr(res.data);
@@ -258,7 +257,7 @@ const Map = () => {
   const clickMapEvent = (code: number[]) => {
     if (mapRef) {
       mapRef.panTo(
-        new naver.maps.LatLng(new naver.maps.LatLng(code[0] - 0.006, code[1])),
+        new navermaps.LatLng(new navermaps.LatLng(code[0] - 0.006, code[1])),
       );
       setCurPlace(code);
     }
