@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/map",
-      "destination": "https://www.guardsafe.store/api/map"
+      "source": "/api/:path*",
+      "destination": "https://www.guardsafe.store/api/:path*"
     }
   ]
 }

@@ -18,16 +18,6 @@ const AppWrap = styled.section`
 `;
 
 function App() {
-  useEffect(() => {
-    async function fetchdata() {
-      try {
-        const { data } = await axios.get("/map");
-      } catch (err) {
-        console.error("err");
-      }
-    }
-    fetchdata();
-  }, []);
   return (
     <AppWrap>
       <NavermapsProvider ncpClientId={`${process.env.REACT_APP_NAVER_ID}`}>
