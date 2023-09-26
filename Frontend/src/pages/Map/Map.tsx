@@ -203,7 +203,7 @@ const Map = () => {
     let longitude = myLocation.longitude;
     let latitude = myLocation.latitude;
     const getApi = async () => {
-      const url = `/api?longitude=${longitude}&latitude=${latitude}`;
+      const url = `/api/api?longitude=${longitude}&latitude=${latitude}`;
       try {
         const res = await await axios
           .get(`${apiconfig.SERVER_URI}${url}`)
