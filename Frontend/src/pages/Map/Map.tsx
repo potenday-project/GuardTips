@@ -196,6 +196,7 @@ const Map = () => {
   const [dataArr, setDataArr] = useState<IData>();
   axios.defaults.withCredentials = true;
   axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
+
   useEffect(() => {
     const apiUrl = "https://www.guardsafe.store";
     let longitude = myLocation.longitude;

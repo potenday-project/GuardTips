@@ -22,7 +22,6 @@ function App() {
     async function fetchdata() {
       try {
         const { data } = await axios.get("/map");
-        console.log(data);
       } catch (err) {
         console.error("err");
       }
