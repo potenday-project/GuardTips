@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "https://www.guardsafe.store/api?"
+      "source": "/api(.*)",
+      "destination": "https://www.guardsafe.store/api"
     }
   ],
   "headers": [
