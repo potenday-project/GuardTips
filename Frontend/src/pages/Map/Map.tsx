@@ -200,8 +200,19 @@ const Map = () => {
     const apiUrl = "https://www.guardsafe.store/api";
     let longitude = myLocation.longitude;
     let latitude = myLocation.latitude;
+    axios
+      .post(
+        `${apiUrl}`,
+        {},
+        {
+          withCredentials: true, // 쿠키 cors 통신 설정
+        },
+      )
+      .then((response) => {
+        console.log(response);
+      });
     const getApi = async () => {
-      const url = `${apiUrl}?longitude=${longitude}&latitude=${latitude}`;
+      const url = `?longitude=${longitude}&latitude=${latitude}`;
       try {
         const res = await await axios.get(`${url}`).then((res) => {
           setDataArr(res.data);
