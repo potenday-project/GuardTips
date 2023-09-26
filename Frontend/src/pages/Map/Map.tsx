@@ -24,6 +24,7 @@ import {
   showSearchAtom,
 } from "../../recoil/atom";
 import SearchModal from "./components/SearchModal";
+import { apiconfig } from "../../hooks/apiconfig";
 
 const MapWrap = styled.section`
   width: 100%;
@@ -204,11 +205,14 @@ const Map = () => {
     const getApi = async () => {
       const url = `/api?longitude=${longitude}&latitude=${latitude}`;
       try {
-        const res = await await axios.get(`${url}`).then((res) => {
-          setDataArr(res.data);
-        });
+        const res = await await axios
+          .get(`${apiconfig.SERVER_URI}${url}`)
+          .then((res) => {
+            setDataArr(res.data);
+          });
       } catch (err) {
-        console.error("err");
+        console.error(err);
+        console.log(apiconfig.SERVER_URI, url);
       }
     };
     getApi();
