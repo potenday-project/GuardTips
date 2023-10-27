@@ -1,5 +1,6 @@
 import { inspect } from "util";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const DisasterWrap = styled.div`
   margin-top: 32px;
@@ -90,8 +91,20 @@ const societyMockData: ItemData[] = [
 ];
 
 const DisasterItemCard = (disasterName: string, disasterIcon: string) => {
+  const navigate = useNavigate();
+  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const {
+      currentTarget: { innerText },
+    } = e;
+    navigate(`/guide/disaster/${innerText}`, { state: innerText });
+  };
   return (
-    <div key={disasterName}>
+    <div
+      key={disasterName}
+      onClick={(e) => {
+        onClick(e);
+      }}
+    >
       <MainCard>
         <img src={disasterIcon} alt={"재난 사진"} />
       </MainCard>
