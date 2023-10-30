@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import styled from "styled-components";
 import disaterArray from "./data/disater.json";
 import { useState } from "react";
+import DisasterList from "./components/DisasterList";
 
 const DetailWrap = styled.section`
   height: 100%;
@@ -46,7 +47,7 @@ const DetailWrap = styled.section`
   }
 `;
 
-const ListContents = styled.li`
+export const ListContents = styled.li`
   color: var(--G_00, #000);
   font: 400 18px/22px "Pretendard";
   margin-bottom: 6px;
@@ -54,7 +55,6 @@ const ListContents = styled.li`
   position: relative;
   &::before {
     content: "•";
-    /* background-color: plum; */
     width: 10px;
     height: 10px;
     position: absolute;
@@ -115,12 +115,6 @@ export default function DisasterDetail() {
 
   const arr = arrayData[enterName];
 
-  if (typeof arr["사전 준비"][0] === "string") {
-    console.log(arr["사전 준비"]);
-  } else {
-    console.log(arr["사전 준비"]);
-  }
-
   return (
     <DetailWrap>
       <Header title="" />
@@ -128,88 +122,22 @@ export default function DisasterDetail() {
         <p className="subtitle">자연재난</p>
         <h1>{enterName}</h1>
         <ContentsBox>
-          <section>
-            <TipBox>
-              <div>
-                <img src="/assets/icon/alert.png" alt="" />
-              </div>
-              <p>{arr["유의사항"]}</p>
-            </TipBox>
-            <ul>
-              <h2>사전 준비</h2>
-              {arr["사전 준비"].map((x, index) => {
-                if (typeof x === "object") {
-                  return (
-                    <li key={`before-${index}`}>
-                      <h3>
-                        {index + 1}.<span>{x.title}</span>
-                      </h3>
-                      <ListContents>{x.desc}</ListContents>
-                    </li>
-                  );
-                }
-                return (
-                  <ListContents key={`before-${index}`}>
-                    {x.toString()}
-                  </ListContents>
-                );
-              })}
-            </ul>
-            <ul>
-              <h2>발생 시</h2>
-              {arr["발생 시"].map((x, index) => {
-                if (typeof x === "object") {
-                  return (
-                    <li key={`acc-${index}`}>
-                      <h3>
-                        {index + 1}.<span>{x.title}</span>
-                      </h3>
-                      {typeof x.desc === "object"
-                        ? x.desc.map((y, ydex) => {
-                            return (
-                              <ListContents key={`acc-desc-${ydex}`}>
-                                {y}
-                              </ListContents>
-                            );
-                          })
-                        : x.desc}
-                    </li>
-                  );
-                }
-                return (
-                  <ListContents key={`acc-${index}`}>
-                    {x.toString()}
-                  </ListContents>
-                );
-              })}
-            </ul>
-            {arr["발생 이후"] ? (
-              <ul>
-                <h2>발생 이후</h2>
-                {arr["발생 이후"].map((x, index) => {
-                  if (typeof x === "object") {
-                    return (
-                      <li key={`after-${index}`}>
-                        <h3>
-                          {index + 1}.<span>{x.title}</span>
-                        </h3>
-                        <ListContents>{x.desc}</ListContents>
-                      </li>
-                    );
-                  }
-                  return (
-                    <ListContents key={`after-${index}`}>
-                      {x.toString()}
-                    </ListContents>
-                  );
-                })}
-              </ul>
-            ) : null}
-            <ul>
-              <h2>주요기관 연락처</h2>
-              <ListContents>{arr["주요기관 연락처"]}</ListContents>
-            </ul>
-          </section>
+          <TipBox>
+            <div>
+              <img src="/assets/icon/alert.png" alt="" />
+            </div>
+            <p>{arr["유의사항"]}</p>
+          </TipBox>
+
+          <DisasterList name={"사전 준비"} arrayData={arr["사전 준비"]} />
+          <DisasterList name={"발생 시"} arrayData={arr["발생 시"]} />
+          {arr["발생 이후"] ? (
+            <DisasterList name={"발생 이후"} arrayData={arr["발생 이후"]} />
+          ) : null}
+          <ul>
+            <h2>주요기관 연락처</h2>
+            <ListContents>{arr["주요기관 연락처"]}</ListContents>
+          </ul>
         </ContentsBox>
       </div>
     </DetailWrap>
