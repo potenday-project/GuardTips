@@ -1,14 +1,23 @@
-import { ListContents } from "../DisasterDetail";
+import { ListContents, TipBox } from "../DisasterDetail";
 
 interface IDisaterArray {
   name: string;
   arrayData: string[] | { title: string; desc: string | string[] }[];
+  tip?: string;
 }
 
-export default function DisasterList({ name, arrayData }: IDisaterArray) {
+export default function DisasterList({ name, arrayData, tip }: IDisaterArray) {
   return (
     <ul>
       <h2>{name}</h2>
+      {tip ? (
+        <TipBox>
+          <div>
+            <img src="/assets/icon/alert.png" alt="" />
+          </div>
+          <p>{tip}</p>
+        </TipBox>
+      ) : null}
       {arrayData.map((data, index) => {
         if (typeof data === "object") {
           return (

@@ -74,7 +74,7 @@ const ContentsBox = styled.div`
   padding: 20px;
 `;
 
-const TipBox = styled.div`
+export const TipBox = styled.div`
   border-radius: 12px;
   background: rgba(239, 74, 173, 0.1);
   padding: 7px 10px 7px 13px;
@@ -100,7 +100,9 @@ interface IDisaterArray {
   [key: string]: {
     유의사항: string;
     "사전 준비": string[] | { title: string; desc: string | string[] }[];
+    "발생 시 유의사항"?: string;
     "발생 시": string[] | { title: string; desc: string | string[] }[];
+    "발생 이후 유의사항"?: string;
     "발생 이후"?: string[] | { title: string; desc: string | string[] }[];
     "주요기관 연락처": string;
   };
@@ -121,24 +123,36 @@ export default function DisasterDetail() {
       <div className="contentsWrap">
         <p className="subtitle">자연재난</p>
         <h1>{enterName}</h1>
-        <ContentsBox>
-          <TipBox>
-            <div>
-              <img src="/assets/icon/alert.png" alt="" />
-            </div>
-            <p>{arr["유의사항"]}</p>
-          </TipBox>
+        {arr ? (
+          <ContentsBox>
+            <TipBox>
+              <div>
+                <img src="/assets/icon/alert.png" alt="" />
+              </div>
+              <p>{arr["유의사항"]}</p>
+            </TipBox>
 
-          <DisasterList name={"사전 준비"} arrayData={arr["사전 준비"]} />
-          <DisasterList name={"발생 시"} arrayData={arr["발생 시"]} />
-          {arr["발생 이후"] ? (
-            <DisasterList name={"발생 이후"} arrayData={arr["발생 이후"]} />
-          ) : null}
-          <ul>
-            <h2>주요기관 연락처</h2>
-            <ListContents>{arr["주요기관 연락처"]}</ListContents>
-          </ul>
-        </ContentsBox>
+            <DisasterList name={"사전 준비"} arrayData={arr["사전 준비"]} />
+            <DisasterList
+              name={"발생 시"}
+              arrayData={arr["발생 시"]}
+              tip={arr["발생 시 유의사항"]}
+            />
+            {arr["발생 이후"] ? (
+              <DisasterList
+                name={"발생 이후"}
+                arrayData={arr["발생 이후"]}
+                tip={arr["발생 이후 유의사항"]}
+              />
+            ) : null}
+            <ul>
+              <h2>주요기관 연락처</h2>
+              <ListContents>{arr["주요기관 연락처"]}</ListContents>
+            </ul>
+          </ContentsBox>
+        ) : (
+          <ContentsBox>서비스 준비중입니다!</ContentsBox>
+        )}
       </div>
     </DetailWrap>
   );
