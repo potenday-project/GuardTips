@@ -31,30 +31,26 @@ const DetailWrap = styled.section`
   }
 `;
 
-const GuideDetail = () => {
+const FirstaidDetail = () => {
   // 라우터로 받아온 정보
   const location = useLocation();
   const enterName = location.state;
-
-  const [imgData, setImgData] = useState();
+  const mockData: { [key: string]: string } = {
+    "심폐소생술(CPR)": "cpr",
+    "자동심장충격(AED)": "aed",
+    기도폐쇄: "choking",
+    지혈처치: "stopbleeding",
+    "절단상 처치": "cut",
+    "코피 처치": "nosebleeding",
+    "화상 처치": "burn",
+    "뱀 물림": "snake",
+    "설사약 제조(ORS)": "ors",
+  };
+  const [imgData, setImgData] = useState("");
 
   useEffect(() => {
-    const apiUrl = "https://49.50.167.129:5001/images";
-    const getApi = async () => {
-      const url = `${apiUrl}/${enterName}.jpg
-      `;
-      try {
-        const res = await await axios.get(`${url}`).then((res) => {
-          setImgData(res.data);
-        });
-      } catch (err) {
-        console.error("err");
-      }
-    };
-    getApi();
+    setImgData(mockData[`${enterName}`]);
   }, []);
-
-  console.log(imgData);
 
   return (
     <DetailWrap>
@@ -63,11 +59,14 @@ const GuideDetail = () => {
         <p>응급처치</p>
         <h1>{enterName}</h1>
         <div>
-          <img src={imgData} alt="" />
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/firstaid/${imgData}.png`}
+            alt={enterName}
+          />
         </div>
       </div>
     </DetailWrap>
   );
 };
 
-export default GuideDetail;
+export default FirstaidDetail;

@@ -21,7 +21,7 @@ export default function DisasterList({ name, arrayData, tip }: IDisaterArray) {
       {arrayData.map((data, index) => {
         if (typeof data === "object") {
           return (
-            <li key={`before-${index}`}>
+            <div key={`before-${index}`}>
               <h3>
                 {index + 1}.<span>{data.title}</span>
               </h3>
@@ -36,7 +36,7 @@ export default function DisasterList({ name, arrayData, tip }: IDisaterArray) {
               ) : (
                 <ListContents>{data.desc}</ListContents>
               )}
-            </li>
+            </div>
           );
         }
         return (

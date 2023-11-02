@@ -58,18 +58,18 @@ const FirstAid = () => {
     const {
       currentTarget: { innerText },
     } = e;
-    navigate(`/guide/${innerText}`, { state: innerText });
+    navigate(`/guide/firstaid/${innerText}`, { state: innerText });
   };
   const mockData = [
-    "심폐소생술 (CPR)",
-    "자동심장충격 (AED)",
+    "심폐소생술(CPR)",
+    "자동심장충격(AED)",
     "기도폐쇄",
     "지혈처치",
     "절단상 처치",
     "코피 처치",
     "화상 처치",
     "뱀 물림",
-    "설사약 제조 (ORS)",
+    "설사약 제조(ORS)",
   ];
 
   return (

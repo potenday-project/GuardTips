@@ -132,6 +132,9 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
       >
         <img src="assets/icon/search.png" alt="검색" />
       </li>
+      <li className="icon">
+        <img src="assets/icon/icon_Reset.png" alt="현위치" />
+      </li>
     </IconWrap>
   );
 };

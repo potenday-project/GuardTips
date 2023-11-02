@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Router, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import DisasterResponse from "./components/DisasterResponse";
 import FirstAid from "./components/FirstAid";
@@ -72,12 +72,19 @@ const Guide = () => {
   const [name, setName] = useState(enterName);
 
   const data = ["재난대처", "응급처치", "생존배낭"];
-  let history = useNavigate();
+
+  // useEffect(() => {
+  //   let stored = localStorage.getItem("tabs");
+  //   if (!stored) return;
+  //   setName(stored);
+  // }, [enterName]);
+
   const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
     const {
       currentTarget: { innerText },
     } = e;
     setName(innerText);
+    // localStorage.setItem("tabs", innerText);
   };
 
   return (
