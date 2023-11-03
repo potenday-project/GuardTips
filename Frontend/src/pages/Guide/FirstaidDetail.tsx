@@ -42,7 +42,7 @@ const ContentsBox = styled.div`
 const FirstaidDetail = () => {
   // 라우터로 받아온 정보
   const location = useLocation();
-  const enterName = location.state;
+  const enterName = location.state.replace(/\n/g, "");
   const mockData: { [key: string]: string } = {
     "심폐소생술(CPR)": "cpr",
     "자동심장충격(AED)": "aed",
@@ -55,7 +55,6 @@ const FirstaidDetail = () => {
     "설사약 제조(ORS)": "ors",
   };
   const [imgData, setImgData] = useState("");
-
   useEffect(() => {
     setImgData(mockData[`${enterName}`]);
   }, []);

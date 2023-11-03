@@ -6,7 +6,6 @@ import { styled } from "styled-components";
 import Guide from "./pages/Guide/Guide";
 import Map from "./pages/Map/Map";
 import { Suspense, useEffect } from "react";
-import axios from "axios";
 import DisasterDetail from "./pages/Guide/DisasterDetail";
 import FirstaidDetail from "./pages/Guide/FirstaidDetail";
 

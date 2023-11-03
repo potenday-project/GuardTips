@@ -45,11 +45,11 @@ function SubTitleStyle(subTitleText: String) {
         color: "#000",
         marginTop: "32px",
         marginBottom: "14px",
-        fontFamily: "Pretender",
         fontSize: "18px",
         fontStyle: "normal",
         fontWeight: 600,
         lineHeight: "normal",
+        fontFamily: "Pretenderd",
       }}
     >
       {subTitleText}
@@ -115,6 +115,7 @@ const DisasterItemCard = (disasterName: string, disasterIcon: string) => {
           fontSize: "20px",
           color: "#000000",
           fontWeight: 600,
+          fontFamily: "Pretendard",
         }}
       >
         {disasterName}

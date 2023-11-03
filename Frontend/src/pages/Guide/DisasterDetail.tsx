@@ -111,11 +111,13 @@ interface IDisaterArray {
 export default function DisasterDetail() {
   // 라우터로 받아온 정보
   const location = useLocation();
-  const enterName = `${location.state}`;
+  const enterName = `${location.state}`.replace(/\n/g, "");
 
   const arrayData: IDisaterArray = disaterArray;
 
   const arr = arrayData[enterName];
+
+  console.log(enterName);
 
   return (
     <DetailWrap>

@@ -81,9 +81,9 @@ const Guide = () => {
 
   const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
     const {
-      currentTarget: { innerText },
+      currentTarget: { textContent },
     } = e;
-    setName(innerText);
+    setName(textContent);
     // localStorage.setItem("tabs", innerText);
   };
 
