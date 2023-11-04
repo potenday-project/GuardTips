@@ -13,6 +13,10 @@ interface IList {
   color: string;
 }
 
+interface IShowMenu {
+  isOpen: boolean;
+}
+
 const ContentsWrap = styled.section`
   padding: 0 30px;
   border-radius: 20px 20px 0 0;
@@ -29,6 +33,12 @@ const SelectWrap = styled.div`
     color: var(--G_00, #000);
     font: 700 22px "Giants";
   }
+`;
+
+const Icon = styled.div<{ isOpen: boolean }>`
+  display: inline-block;
+  transform-origin: 45% 65%;
+  transform: ${(props) => (props.isOpen ? "rotate(180deg)" : null)};
 `;
 
 const SelectList = styled.ul`
@@ -146,7 +156,7 @@ interface IListMenu {
 }
 
 const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const [categoryName, setCategoryName] = useRecoilState(categoryNameAtom);
   const setListName = useSetRecoilState(listNameAtom);
 
@@ -173,21 +183,23 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
       <SelectWrap>
         <h3 onClick={() => setShowMenu((prev) => !prev)}>
           {categoryName}{" "}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="9"
-            viewBox="0 0 15 9"
-            fill="none"
-          >
-            <path
-              d="M1.0769 7.5L7.07691 1.5L13.0769 7.5"
-              stroke="black"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <Icon isOpen={showMenu}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="9"
+              viewBox="0 0 15 9"
+              fill="none"
+            >
+              <path
+                d="M1.0769 7.5L7.07691 1.5L13.0769 7.5"
+                stroke="black"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Icon>
         </h3>
 
         {showMenu ? (
