@@ -151,8 +151,8 @@ const Map = () => {
   // 리스트 이름
   const [listName, setListName] = useRecoilState(listNameAtom);
 
-  // 임시 데이터
-  const mockData = useRecoilValue(dataArrAtom);
+  // 현재 위치
+  const [nowPlace, setNowPlace] = useState();
 
   const [myLocation, setMyLocation] = useRecoilState(curLocationAtom);
 
@@ -190,17 +190,12 @@ const Map = () => {
     }
   }, []);
 
-  useEffect(() => {
-    wholeDataArr();
-  }, [categoryName]);
-
   // api test
   const [dataArr, setDataArr] = useState<IData>();
   axios.defaults.withCredentials = true;
   axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
 
   useEffect(() => {
-    const apiUrl = "https://www.guardsafe.store";
     let longitude = myLocation.longitude;
     let latitude = myLocation.latitude;
     const getApi = async () => {
@@ -210,7 +205,7 @@ const Map = () => {
           setDataArr(res.data);
         });
       } catch (err) {
-        console.error(err);
+        console.error("err");
         console.log(apiconfig.SERVER_URI, url);
       }
     };
@@ -267,6 +262,17 @@ const Map = () => {
     }
     setShowDetail(true);
   };
+
+  const searchNowPlace = () => {
+    if (mapRef) {
+      let center = mapRef.getCenter();
+      setMyLocation({ latitude: center._lat, longitude: center._lng });
+    }
+  };
+
+  useEffect(() => {
+    wholeDataArr();
+  }, [categoryName, myLocation]);
 
   return (
     <MapWrap>
@@ -383,7 +389,11 @@ const Map = () => {
             <InfoWindow content="" ref={setInfoWindow} />
           </NaverMap>
         </MapDiv>
-        <MapIcon curPlace={curPlace} clickEvent={clickMapEvent} />
+        <MapIcon
+          curPlace={curPlace}
+          clickEvent={clickMapEvent}
+          nowPlace={searchNowPlace}
+        />
         {showSearch ? <SearchModal /> : null}
       </MapContents>
     </MapWrap>

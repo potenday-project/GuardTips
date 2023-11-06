@@ -22,7 +22,7 @@ const ContentsWrap = styled.section<{ ani: boolean }>`
   padding: 0 30px;
   border-radius: 20px 20px 0 0;
   width: 100%;
-  height: calc(50vh + 70px);
+  height: 50vh;
   background-color: white;
   position: absolute;
   bottom: -200px;

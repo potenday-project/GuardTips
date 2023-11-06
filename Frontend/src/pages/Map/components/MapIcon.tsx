@@ -69,9 +69,10 @@ const IconWrap = styled.ul`
 interface IMapIcon {
   curPlace: number[] | undefined;
   clickEvent: any;
+  nowPlace: any;
 }
 
-const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
+const MapIcon = ({ curPlace, clickEvent, nowPlace }: IMapIcon) => {
   const [showNow, setShowNow] = useState(false);
   const setShowDetail = useSetRecoilState(showDetailAtom);
   const setShowSearch = useSetRecoilState(showSearchAtom);
@@ -122,7 +123,7 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
           setShowDetail(false);
         }}
       >
-        <img src="assets/icon/reset.svg" alt="위치 재설정" />
+        <img src="assets/icon/reset.svg" alt="내위치" />
       </li>
       <li
         className="icon"
@@ -132,8 +133,8 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
       >
         <img src="assets/icon/search.svg" alt="검색" />
       </li>
-      <li className="icon">
-        <img src="assets/icon/icon_reset.png" alt="현위치" />
+      <li className="icon" onClick={nowPlace}>
+        <img src="assets/icon/icon_reset.png" alt="현위치에서찾기" />
       </li>
     </IconWrap>
   );
