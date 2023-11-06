@@ -6,7 +6,7 @@ import SideBtn from "./components/SideBtn";
 const MainWrap = styled.div`
   padding: 20px;
   height: 100%;
-  background: linear-gradient(180deg, #fcfcfc 0%, #e9e9f4 100%);
+  /* background: linear-gradient(180deg, #fcfcfc 0%, #e9e9f4 100%) fixed; */
   position: relative;
 `;
 

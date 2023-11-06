@@ -112,7 +112,7 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
         </li>
       ) : (
         <li className="icon" onClick={() => setShowNow(true)}>
-          <img src="assets/icon/location.png" alt="내 위치" />
+          <img src="assets/icon/my.svg" alt="내 위치" />
         </li>
       )}
       <li
@@ -122,7 +122,7 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
           setShowDetail(false);
         }}
       >
-        <img src="assets/icon/reset.png" alt="위치 재설정" />
+        <img src="assets/icon/reset.svg" alt="위치 재설정" />
       </li>
       <li
         className="icon"
@@ -130,10 +130,10 @@ const MapIcon = ({ curPlace, clickEvent }: IMapIcon) => {
           setShowSearch(true);
         }}
       >
-        <img src="assets/icon/search.png" alt="검색" />
+        <img src="assets/icon/search.svg" alt="검색" />
       </li>
       <li className="icon">
-        <img src="assets/icon/icon_Reset.png" alt="현위치" />
+        <img src="assets/icon/icon_reset.png" alt="현위치" />
       </li>
     </IconWrap>
   );

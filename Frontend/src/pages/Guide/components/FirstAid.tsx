@@ -3,18 +3,18 @@ import { styled } from "styled-components";
 
 const FirstAidWrap = styled.div`
   margin-top: 32px;
-  height: 810px;
-  overflow-y: scroll;
+  /* height: 810px; */
+  /* overflow-y: scroll; */
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
 
 const FirstAidList = styled.ul`
   height: 100%;
-  margin-bottom: 350px;
+  margin-bottom: 30px;
   li {
     width: 100%;
-    height: 82px;
+    height: 74px;
     border-radius: 20px;
     border: 1px solid var(--G_03, #d9d9d9);
     box-sizing: border-box;

@@ -11,10 +11,13 @@ import FirstaidDetail from "./pages/Guide/FirstaidDetail";
 
 const AppWrap = styled.section`
   max-width: 430px;
-  height: 932px;
+  height: 100vh;
   margin: 0 auto;
   border: solid 1px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: linear-gradient(180deg, #fcfcfc 0%, #e9e9f4 100%) fixed;
+  box-sizing: border-box;
 `;
 
 function App() {

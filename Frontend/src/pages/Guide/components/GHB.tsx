@@ -2,19 +2,19 @@ import { styled } from "styled-components";
 
 const GHBWrap = styled.div`
   margin-top: 22px;
-  height: 810px;
-  overflow-y: scroll;
+  /* height: 810px; */
+  /* overflow-y: scroll; */
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
 
 const GHBList = styled.div`
   height: 100%;
-  margin-bottom: 1500px;
+  margin-bottom: 100px;
 
   h3 {
     width: 100%;
-    height: 60px;
+    height: 74px;
     border-radius: 20px;
     margin: 10px 0;
     border: 1px solid var(--G_03, #d9d9d9);
@@ -24,6 +24,15 @@ const GHBList = styled.div`
     display: flex;
     align-items: center;
     padding: 20px;
+    div {
+      width: 32px;
+      height: 32px;
+      box-sizing: border-box;
+      margin-right: 5px;
+      img {
+        width: 100%;
+      }
+    }
   }
   input[type="checkbox"] {
     display: none;
@@ -105,7 +114,12 @@ const GHB = () => {
     <GHBWrap>
       <GHBList>
         <ul>
-          <h3>비상식량</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_food.svg" alt="" />
+            </div>
+            비상식량
+          </h3>
           {mockData.food.map((x) => {
             return (
               <CheckBoxWrap key={x}>
@@ -116,7 +130,12 @@ const GHB = () => {
           })}
         </ul>
         <ul>
-          <h3>체온유지 용품</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_cloth.svg" alt="" />
+            </div>
+            체온유지 용품
+          </h3>
           {mockData.temp.map((x) => {
             return (
               <CheckBoxWrap key={x}>
@@ -127,7 +146,12 @@ const GHB = () => {
           })}
         </ul>
         <ul>
-          <h3>구조용품</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_megaphone.svg" alt="" />
+            </div>
+            구조용품
+          </h3>
           {mockData.sos.map((x) => {
             return (
               <CheckBoxWrap key={x}>
@@ -138,7 +162,12 @@ const GHB = () => {
           })}
         </ul>
         <ul>
-          <h3>통신기</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_radio.svg" alt="" />
+            </div>
+            통신기
+          </h3>
           {mockData.tel.map((x) => {
             return (
               <CheckBoxWrap key={x}>
@@ -149,7 +178,12 @@ const GHB = () => {
           })}
         </ul>
         <ul>
-          <h3>구급약</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_medicine.svg" alt="" />
+            </div>
+            구급약
+          </h3>
           {mockData.medi.map((x) => {
             return (
               <CheckBoxWrap key={x}>
@@ -160,7 +194,12 @@ const GHB = () => {
           })}
         </ul>
         <ul>
-          <h3>기타</h3>
+          <h3>
+            <div>
+              <img src="assets/icon/icon_alert.svg" alt="" />
+            </div>
+            기타
+          </h3>
           {mockData.etc.map((x) => {
             return (
               <CheckBoxWrap key={x}>

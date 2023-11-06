@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 
 const DisasterWrap = styled.div`
   margin-top: 32px;
-  height: 810px;
-  overflow-y: scroll;
+  /* height: 810px; */
+  /* overflow-y: scroll; */
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
+const CardWrap = styled.div`
+  width: 31%;
+`;
+
 const MainCard = styled.div`
-  width: 108px;
+  width: 100%;
   height: 108px;
   background-color: white;
   border-radius: 8px;
@@ -22,9 +26,8 @@ const MainCard = styled.div`
 const MainViewContainer = styled.div`
   overflow-y: auto;
   scrollbar-width: none;
-
   height: 100%;
-  padding-bottom: 400px;
+  padding-bottom: 100px;
   &::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -33,10 +36,11 @@ const MainViewContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 10px;
 `;
 function SubTitleStyle(subTitleText: String) {
   return (
@@ -99,7 +103,7 @@ const DisasterItemCard = (disasterName: string, disasterIcon: string) => {
     navigate(`/guide/disaster/${innerText}`, { state: innerText });
   };
   return (
-    <div
+    <CardWrap
       key={disasterName}
       onClick={(e) => {
         onClick(e);
@@ -120,7 +124,7 @@ const DisasterItemCard = (disasterName: string, disasterIcon: string) => {
       >
         {disasterName}
       </div>
-    </div>
+    </CardWrap>
   );
 };
 

@@ -17,14 +17,31 @@ interface IShowMenu {
   isOpen: boolean;
 }
 
-const ContentsWrap = styled.section`
+const ContentsWrap = styled.section<{ ani: boolean }>`
   padding: 0 30px;
   border-radius: 20px 20px 0 0;
   width: 100%;
-  height: 471px;
+  height: calc(50vh + 70px);
   background-color: white;
   position: absolute;
-  bottom: 0;
+  bottom: -200px;
+  overflow: hidden;
+  ${({ ani }) =>
+    ani &&
+    ` animation: blink 1s forwards ;
+        -webkit-animation: blink .3s ease-in-out forwards ;
+      }
+      @keyframes blink {
+        to {
+          bottom: 0;
+        }
+      }
+      @-webkit-keyframes blink {
+        to {
+          bottom: 0;
+        }
+
+  `}
 `;
 const SelectWrap = styled.div`
   position: relative;
@@ -32,6 +49,7 @@ const SelectWrap = styled.div`
   h3 {
     color: var(--G_00, #000);
     font: 700 22px "Giants";
+    display: inline-block;
   }
 `;
 
@@ -110,13 +128,13 @@ const List = styled.li<IList>`
       props.color === "지진 대피소" ||
       props.color === "대피소" ||
       props.color === "지진옥외"
-        ? "#056fe7 no-repeat url('assets/icon/exit.png')"
+        ? `#056fe7 no-repeat url('${process.env.PUBLIC_URL}/assets/icon/exit.png')`
         : props.color === "급수시설"
-        ? "#5EBBCB no-repeat url('assets/icon/drop.png')"
+        ? `#5EBBCB no-repeat url('${process.env.PUBLIC_URL}/assets/icon/drop.png')`
         : props.color === "병원"
-        ? "#EF4AAD no-repeat url('assets/icon/hospital.png')"
+        ? `#EF4AAD no-repeat url('${process.env.PUBLIC_URL}/assets/icon/hospital.png')`
         : props.color === "약국"
-        ? "#7750E7 no-repeat url('assets/icon/medicine.png')"
+        ? `#7750E7 no-repeat url('${process.env.PUBLIC_URL}/assets/icon/medicine.png')`
         : null};
     background-position: center;
   }
@@ -159,6 +177,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [categoryName, setCategoryName] = useRecoilState(categoryNameAtom);
   const setListName = useSetRecoilState(listNameAtom);
+  const [tap, setTap] = useState(false);
 
   const menuList = [
     "전체",
@@ -179,7 +198,12 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
   };
 
   return (
-    <ContentsWrap>
+    <ContentsWrap
+      ani={tap}
+      onClick={() => {
+        setTap(true);
+      }}
+    >
       <SelectWrap>
         <h3 onClick={() => setShowMenu((prev) => !prev)}>
           {categoryName}{" "}

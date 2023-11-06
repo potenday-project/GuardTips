@@ -8,16 +8,17 @@ interface IHeaderStyle {
 }
 
 const HeaderWrap = styled.section<IHeaderStyle>`
-  background: #fbfbfc;
+  background: ${(props) => (props.$istitledisplay ? "#fbfbfc" : null)};
   box-shadow: ${(props) =>
     props.$istitledisplay ? "0px 16px 16px 0px rgba(0, 0, 0, 0.07)" : null};
   width: 100%;
   height: 70px;
-  position: relative;
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 999;
   div {
     position: absolute;
     left: 30px;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { Router, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -9,7 +9,6 @@ import Header from "../../components/Header";
 
 const GuideWrap = styled.section`
   width: 100%;
-  background: linear-gradient(180deg, #fbfbfc 0%, #ebebf5 100%);
 `;
 
 const ContentsWrap = styled.div`
@@ -30,11 +29,11 @@ const BannerWrap = styled.div<IBanner>`
     border-radius: 40px 0px 40px 40px;
     background: ${(props) =>
       props.name === "재난대처"
-        ? "url('assets/icon/disaster_bg.png') no-repeat"
+        ? `url('${process.env.PUBLIC_URL}/assets/icon/disaster_bg.png') no-repeat`
         : props.name === "응급처치"
-        ? "url('assets/icon/firstaid_bg.png') no-repeat"
+        ? `url('${process.env.PUBLIC_URL}/assets/icon/firstaid_bg.png') no-repeat`
         : props.name === "생존배낭"
-        ? "url('assets/icon/ghb_bg.png') no-repeat"
+        ? `url('${process.env.PUBLIC_URL}/assets/icon/ghb_bg.png') no-repeat`
         : null};
     background-size: contain;
     .imgWrap {
@@ -51,7 +50,7 @@ const BannerWrap = styled.div<IBanner>`
 `;
 
 const TabWrap = styled.ul`
-  margin-top: 90px;
+  margin-top: 70px;
   color: var(--G_03, #d9d9d9);
   font-family: "Giants";
   font-size: 22px;
@@ -59,6 +58,9 @@ const TabWrap = styled.ul`
   width: 300px;
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 90px;
+  z-index: 1;
   .active {
     border-bottom: solid 2px #056fe7;
     color: #056fe7;
@@ -78,6 +80,10 @@ const Guide = () => {
   //   if (!stored) return;
   //   setName(stored);
   // }, [enterName]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [name]);
 
   const onClick = (e: React.MouseEvent<HTMLLIElement>) => {
     const {

@@ -21,7 +21,7 @@ const DetailWrap = styled.section`
 `;
 const ContentsBox = styled.div`
   width: 100%;
-  max-height: 90vh;
+  max-height: 75vh;
   margin-top: 10px;
   background-color: #fff;
   border-radius: 12px;

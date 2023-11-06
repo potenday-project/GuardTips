@@ -28,8 +28,9 @@ import { apiconfig } from "../../hooks/apiconfig";
 
 const MapWrap = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
+  overflow: hidden;
   .marker {
     width: 40.711px;
     height: 40.711px;

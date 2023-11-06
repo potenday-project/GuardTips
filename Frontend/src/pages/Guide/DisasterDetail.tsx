@@ -7,7 +7,6 @@ import DisasterList from "./components/DisasterList";
 
 const DetailWrap = styled.section`
   height: 100%;
-  background: linear-gradient(180deg, #fbfbfc 0%, #ebebf5 100%);
   .contentsWrap {
     padding: 20px;
     overflow-y: scroll;
@@ -65,7 +64,7 @@ export const ListContents = styled.li`
 
 const ContentsBox = styled.div`
   width: 100%;
-  height: 90vh;
+  height: 75vh;
   background-color: #fff;
   overflow-y: scroll;
   margin-top: 18px;
@@ -116,8 +115,6 @@ export default function DisasterDetail() {
   const arrayData: IDisaterArray = disaterArray;
 
   const arr = arrayData[enterName];
-
-  console.log(enterName);
 
   return (
     <DetailWrap>
