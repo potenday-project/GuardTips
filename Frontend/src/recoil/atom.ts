@@ -124,3 +124,8 @@ export const curLocationAtom = atom({
   key: `curLocation`,
   default: { latitude: 0, longitude: 0 },
 });
+
+export const mapListShowAtom = atom({
+  key: `mapListShow`,
+  default: false,
+});

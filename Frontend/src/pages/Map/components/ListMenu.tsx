@@ -5,6 +5,7 @@ import {
   categoryNameAtom,
   dataArrAtom,
   listNameAtom,
+  mapListShowAtom,
 } from "../../../recoil/atom";
 import CopyClipBoard from "../../../components/CopyClipBoard";
 import { IData } from "../Map";
@@ -177,7 +178,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [categoryName, setCategoryName] = useRecoilState(categoryNameAtom);
   const setListName = useSetRecoilState(listNameAtom);
-  const [tap, setTap] = useState(false);
+  const [tap, setTap] = useRecoilState(mapListShowAtom);
 
   const menuList = [
     "전체",
