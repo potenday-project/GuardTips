@@ -10,6 +10,12 @@ const DetailWrap = styled.section`
   .contentsWrap {
     padding: 20px;
     overflow-y: scroll;
+    /* 스크롤 안보이기 */
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+    ::-webkit-scrollbar {
+      display: none;
+    }
     .subtitle {
       color: var(--main, #056fe7);
       font: 600 20px "Pretendard";

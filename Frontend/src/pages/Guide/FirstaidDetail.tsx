@@ -33,6 +33,12 @@ const ContentsBox = styled.div`
   border-radius: 12px;
   border: 1px solid var(--G_03, #d9d9d9);
   overflow-y: scroll;
+  /* 스크롤 안보이기 */
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
   div {
     border-radius: 12px;
     overflow: hidden;
