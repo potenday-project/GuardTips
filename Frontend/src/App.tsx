@@ -16,6 +16,12 @@ const AppWrap = styled.section`
   border: solid 1px;
   overflow-x: hidden;
   overflow-y: scroll;
+  /* 스크롤 안보이기 */
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
   background: linear-gradient(180deg, #fcfcfc 0%, #e9e9f4 100%) fixed;
   box-sizing: border-box;
 `;
