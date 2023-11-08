@@ -268,6 +268,7 @@ const Map = () => {
     if (mapRef) {
       let center = mapRef.getCenter();
       setMyLocation({ latitude: center._lat, longitude: center._lng });
+      console.log(dataArr);
     }
   };
 

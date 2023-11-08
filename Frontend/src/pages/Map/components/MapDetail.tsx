@@ -243,6 +243,7 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
       for (let i = 0; i < dataArr.shelter.length; i++) {
         if (dataArr.shelter[i].title === listName) {
           let data = dataArr.shelter[i];
+          console.log(data.tag.split(",")[0]);
           return (
             <div key={data.title}>
               <svg
@@ -268,7 +269,10 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                   <CopyClipBoard text={data.address} />
                 </div>
               </div>
-              {data.tag === "대피소" || data.tag === "지진옥외" ? (
+              {data.tag === "대피소" ||
+              data.tag === "지진옥외" ||
+              data.tag.split(",")[0] === "이재민 임시주거시설" ||
+              "지진겸용 임시주거시설" ? (
                 <ul className="detailList">
                   <li>
                     <span>시설</span>
@@ -286,7 +290,7 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <span>전화번호</span>
                     <p>{data.address}</p>
                   </li>
-                  {data.badge != "-" ? (
+                  {data.badge !== "-" ? (
                     <div className="badgeWrap">{data.badge}</div>
                   ) : null}
                 </ul>
@@ -395,7 +399,10 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                   <CopyClipBoard text={data.address} />
                 </div>
               </div>
-              {data.tag === "대피소" || data.tag === "지진옥외" ? (
+              {data.tag === "대피소" ||
+              data.tag === "지진옥외" ||
+              data.tag.split(",")[0] === "이재민 임시주거시설" ||
+              "지진겸용 임시주거시설" ? (
                 <ul className="detailList">
                   <li>
                     <span>시설</span>
@@ -413,7 +420,7 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <span>전화번호</span>
                     <p>{data.address}</p>
                   </li>
-                  {data.badge != "-" ? (
+                  {data.badge !== "-" ? (
                     <div className="badgeWrap">{data.badge}</div>
                   ) : null}
                 </ul>

@@ -22,7 +22,8 @@ const ContentsWrap = styled.section<{ ani: boolean }>`
   padding: 0 30px;
   border-radius: 20px 20px 0 0;
   width: 100%;
-  height: 50vh;
+  /* height: 50vh; */
+  height: 50%;
   background-color: white;
   position: absolute;
   bottom: -200px;
@@ -128,7 +129,9 @@ const List = styled.li<IList>`
       props.color === "임시주거시설" ||
       props.color === "지진 대피소" ||
       props.color === "대피소" ||
-      props.color === "지진옥외"
+      props.color === "지진옥외" ||
+      props.color === "이재민 임시주거시설" ||
+      props.color === "지진겸용 임시주거시설"
         ? `#056fe7 no-repeat url('${process.env.PUBLIC_URL}/assets/icon/exit.png')`
         : props.color === "급수시설"
         ? `#5EBBCB no-repeat url('${process.env.PUBLIC_URL}/assets/icon/drop.png')`
@@ -249,7 +252,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
             ? dataArr.waterworks.map((data, index) => {
                 return (
                   <List
-                    key={index}
+                    key={`${data.title}-waterworks`}
                     color={data.tag}
                     onClick={(e) => {
                       clickEvent([data.latitude, data.longitude]);
@@ -269,8 +272,8 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
             ? dataArr.shelter.map((data, index) => {
                 return (
                   <List
-                    key={index}
-                    color={data.tag}
+                    key={`${data.title}-shelter`}
+                    color={data.tag.split(",")[0]}
                     onClick={(e) => {
                       clickEvent([data.latitude, data.longitude]);
                       setListName(data.title);
@@ -289,7 +292,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
             ? dataArr.hospital.map((data, index) => {
                 return (
                   <List
-                    key={index}
+                    key={`${data.title}-hospital`}
                     color={data.tag}
                     onClick={(e) => {
                       clickEvent([data.latitude, data.longitude]);
@@ -311,7 +314,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
                 return (
                   <List
                     key={index}
-                    color={data.tag}
+                    color={data.tag.split(",")[0]}
                     onClick={(e) => {
                       clickEvent([data.latitude, data.longitude]);
                       setListName(data.title);
