@@ -12,6 +12,9 @@ const IconWrap = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: end;
+  .pressed {
+    background-color: rgba(137, 137, 152, 0.8);
+  }
   li {
     width: 50px;
     height: 50px;
@@ -77,6 +80,7 @@ const MapIcon = ({ curPlace, clickEvent, nowPlace }: IMapIcon) => {
   const setShowDetail = useSetRecoilState(showDetailAtom);
   const setShowSearch = useSetRecoilState(showSearchAtom);
   const curLocation = useRecoilValue(curLocationAtom);
+  const [countIndex, setCountIndex] = useState(-1);
 
   return (
     <IconWrap>
@@ -117,23 +121,45 @@ const MapIcon = ({ curPlace, clickEvent, nowPlace }: IMapIcon) => {
         </li>
       )}
       <li
-        className="icon"
+        // className="icon"
+        className={`icon ${countIndex === 1 && "pressed"}`}
         onClick={() => {
           clickEvent([curLocation.latitude, curLocation.longitude]);
           setShowDetail(false);
+        }}
+        onMouseDown={() => {
+          setCountIndex(1);
+        }}
+        onMouseUp={() => {
+          setCountIndex(-1);
         }}
       >
         <img src="assets/icon/reset.svg" alt="내위치" />
       </li>
       <li
-        className="icon"
+        className={`icon ${countIndex === 2 && "pressed"}`}
         onClick={() => {
           setShowSearch(true);
+        }}
+        onMouseDown={() => {
+          setCountIndex(2);
+        }}
+        onMouseUp={() => {
+          setCountIndex(-1);
         }}
       >
         <img src="assets/icon/search.svg" alt="검색" />
       </li>
-      <li className="icon" onClick={nowPlace}>
+      <li
+        className={`icon ${countIndex === 3 && "pressed"}`}
+        onClick={nowPlace}
+        onMouseDown={() => {
+          setCountIndex(3);
+        }}
+        onMouseUp={() => {
+          setCountIndex(-1);
+        }}
+      >
         <img src="assets/icon/icon_reset.png" alt="현위치에서찾기" />
       </li>
     </IconWrap>
