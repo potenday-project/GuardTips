@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 import styled from "styled-components";
 import disaterArray from "./data/disater.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DisasterList from "./components/DisasterList";
 
 const DetailWrap = styled.section`
@@ -103,13 +103,15 @@ export const TipBox = styled.div`
 
 interface IDisaterArray {
   [key: string]: {
-    유의사항: string;
-    "사전 준비": string[] | { title: string; desc: string | string[] }[];
+    유의사항?: string;
+    "사전 준비"?: string[] | { title: string; desc: string | string[] }[];
     "발생 시 유의사항"?: string;
-    "발생 시": string[] | { title: string; desc: string | string[] }[];
+    "발생 시":
+      | string[]
+      | { mainTitle?: string; title: string; desc: string | string[] }[];
     "발생 이후 유의사항"?: string;
     "발생 이후"?: string[] | { title: string; desc: string | string[] }[];
-    "주요기관 연락처": string;
+    "주요기관 연락처"?: string | string[];
   };
 }
 
@@ -122,6 +124,10 @@ export default function DisasterDetail() {
 
   const arr = arrayData[enterName];
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <DetailWrap>
       <Header title="" />
@@ -130,16 +136,28 @@ export default function DisasterDetail() {
         <h1>{enterName}</h1>
         {arr ? (
           <ContentsBox>
-            <TipBox>
-              <div>
-                <img src="/assets/icon/alert.png" alt="" />
-              </div>
-              <p>{arr["유의사항"]}</p>
-            </TipBox>
+            {arr["유의사항"] ? (
+              <TipBox>
+                <div>
+                  <img src="/assets/icon/alert.png" alt="" />
+                </div>
+                <p>{arr["유의사항"]}</p>
+              </TipBox>
+            ) : null}
 
-            <DisasterList name={"사전 준비"} arrayData={arr["사전 준비"]} />
+            {arr["사전 준비"] ? (
+              <DisasterList
+                name={
+                  enterName === "건축물붕괴"
+                    ? "건축물붕괴 발생 시"
+                    : "사전 준비"
+                }
+                arrayData={arr["사전 준비"]}
+              />
+            ) : null}
+
             <DisasterList
-              name={"발생 시"}
+              name={enterName === "건축물붕괴" ? "대처 방법" : "발생 시"}
               arrayData={arr["발생 시"]}
               tip={arr["발생 시 유의사항"]}
             />
@@ -150,10 +168,20 @@ export default function DisasterDetail() {
                 tip={arr["발생 이후 유의사항"]}
               />
             ) : null}
-            <ul>
-              <h2>주요기관 연락처</h2>
-              <ListContents>{arr["주요기관 연락처"]}</ListContents>
-            </ul>
+
+            {arr["주요기관 연락처"] ? (
+              <ul>
+                <h2>주요기관 연락처</h2>
+                {typeof arr["주요기관 연락처"] !== "string" &&
+                arr["주요기관 연락처"][1] ? (
+                  arr["주요기관 연락처"].map((x) => {
+                    return <ListContents>{x}</ListContents>;
+                  })
+                ) : (
+                  <ListContents>{arr["주요기관 연락처"]}</ListContents>
+                )}
+              </ul>
+            ) : null}
           </ContentsBox>
         ) : (
           <ContentsBox>서비스 준비중입니다!</ContentsBox>
