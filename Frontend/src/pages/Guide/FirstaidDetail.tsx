@@ -69,6 +69,7 @@ const FirstaidDetail = () => {
   const [imgData, setImgData] = useState("");
   useEffect(() => {
     setImgData(mockData[`${enterName}`]);
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
   return (
