@@ -11,6 +11,7 @@ import FirstaidDetail from "./pages/Guide/FirstaidDetail";
 
 const AppWrap = styled.section`
   max-width: 430px;
+  /* height: 100vh; */
   height: 932px;
   margin: 0 auto;
   border: solid 1px;
