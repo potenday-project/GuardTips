@@ -73,6 +73,8 @@ const Guide = () => {
   const enterName = location.state;
   const [name, setName] = useState(enterName);
 
+  const [isAnd, setIsAnd] = useState("");
+
   const data = ["재난대처", "응급처치", "생존배낭"];
 
   // useEffect(() => {
@@ -92,6 +94,14 @@ const Guide = () => {
     setName(textContent);
     // localStorage.setItem("tabs", innerText);
   };
+
+  // 안드로이드 구분?
+  useEffect(() => {
+    // userAgent에 ios // android 가 있는 지 확인해줍니다.
+    const iOS = navigator.userAgent.match(/iOS_App/i);
+    const Android = navigator.userAgent.match(/Android_App/i);
+    if (Android) setIsAnd("Android_App");
+  }, []);
 
   return (
     <GuideWrap>
