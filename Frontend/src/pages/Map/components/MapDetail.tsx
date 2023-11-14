@@ -243,7 +243,7 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
       for (let i = 0; i < dataArr.shelter.length; i++) {
         if (dataArr.shelter[i].title === listName) {
           let data = dataArr.shelter[i];
-          console.log(data.tag.split(",")[0]);
+
           return (
             <div key={data.title}>
               <svg
@@ -269,7 +269,7 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                   <CopyClipBoard text={data.address} />
                 </div>
               </div>
-              {data.tag === "대피소" ||
+              {data.tag === "전체 대피소" ||
               data.tag === "지진옥외" ||
               data.tag.split(",")[0] === "이재민 임시주거시설" ||
               "지진겸용 임시주거시설" ? (
@@ -351,6 +351,79 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <span>전화번호</span>
                     <p>{data.address}</p>
                   </li>
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
+              </div>
+            </div>
+          );
+        }
+      }
+    } else if (dataArr && categoryName === "임시주거시설") {
+      for (let i = 0; i < dataArr.shelter.length; i++) {
+        console.log(dataArr.shelter[i].title, listName);
+        if (dataArr.shelter[i].title === listName) {
+          let data = dataArr.shelter[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "전체 대피소" ||
+              data.tag === "지진옥외" ||
+              data.tag.split(",")[0] === "임시주거시설" ||
+              "지진겸용 임시주거시설" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <span>최대 수용인원</span>
+                    <p>{data.address}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                  {data.badge !== "-" ? (
+                    <div className="badgeWrap">{data.badge}</div>
+                  ) : null}
                 </ul>
               ) : (
                 <ul>정보 준비중입니다.</ul>
@@ -456,6 +529,150 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <span>전화번호</span>
                     <p>{data.tel}</p>
                   </li>
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
+              </div>
+            </div>
+          );
+        }
+      }
+    } else if (dataArr && wholeData && categoryName === "임시주거시설") {
+      for (let i = 0; i < dataArr.shelter.length; i++) {
+        if (dataArr.shelter[i].title === listName) {
+          let data = dataArr.shelter[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "전체 대피소" ||
+              data.tag === "지진옥외" ||
+              data.tag.split(",")[0] === "임시주거시설" ||
+              "지진겸용 임시주거시설" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <span>최대 수용인원</span>
+                    <p>{data.address}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                  {data.badge !== "-" ? (
+                    <div className="badgeWrap">{data.badge}</div>
+                  ) : null}
+                </ul>
+              ) : (
+                <ul>정보 준비중입니다.</ul>
+              )}
+
+              <div className="btnWrap">
+                <button>자세히보기</button>
+                <button
+                  onClick={() => {
+                    handle();
+                  }}
+                >
+                  공유하기
+                </button>
+              </div>
+            </div>
+          );
+        }
+      }
+    } else if (dataArr && wholeData && categoryName === "지진") {
+      for (let i = 0; i < dataArr.shelter.length; i++) {
+        if (dataArr.shelter[i].title === listName) {
+          let data = dataArr.shelter[i];
+          return (
+            <div key={data.title}>
+              <svg
+                onClick={() => setShowDetail(false)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="11"
+                height="20"
+                viewBox="0 0 11 20"
+                fill="none"
+              >
+                <path
+                  d="M10 19L1 10L10 0.999999"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <div className="titleWrap">
+                <h3>{data.title}</h3>
+                <div className="addressWrap">
+                  <p className="subTitle">{data.address}</p>
+                  <CopyClipBoard text={data.address} />
+                </div>
+              </div>
+              {data.tag === "전체 대피소" ||
+              data.tag === "지진옥외" ||
+              data.tag.split(",")[0] === "임시주거시설" ||
+              "지진겸용 임시주거시설" ? (
+                <ul className="detailList">
+                  <li>
+                    <span>시설</span>
+                    <p>{data.facility}</p>
+                  </li>
+                  <li>
+                    <span>규모</span>
+                    <p>{data.scale}</p>
+                  </li>
+                  <li>
+                    <span>최대 수용인원</span>
+                    <p>{data.address}</p>
+                  </li>
+                  <li>
+                    <span>전화번호</span>
+                    <p>{data.address}</p>
+                  </li>
+                  {data.badge !== "-" ? (
+                    <div className="badgeWrap">{data.badge}</div>
+                  ) : null}
                 </ul>
               ) : (
                 <ul>정보 준비중입니다.</ul>

@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { v4 as uuidv4 } from "uuid";
 import {
   categoryNameAtom,
   dataArrAtom,
@@ -9,13 +10,10 @@ import {
 } from "../../../recoil/atom";
 import CopyClipBoard from "../../../components/CopyClipBoard";
 import { IData } from "../Map";
-
-interface IList {
-  color: string;
-}
+import List from "./List";
 
 interface IShowMenu {
-  isOpen: boolean;
+  $isOpen: boolean;
 }
 
 const ContentsWrap = styled.section<{ ani: boolean }>`
@@ -55,10 +53,10 @@ const SelectWrap = styled.div`
   }
 `;
 
-const Icon = styled.div<{ isOpen: boolean }>`
+const Icon = styled.div<{ $isOpen: boolean }>`
   display: inline-block;
   transform-origin: 45% 65%;
-  transform: ${(props) => (props.isOpen ? "rotate(180deg)" : null)};
+  transform: ${(props) => (props.$isOpen ? "rotate(180deg)" : null)};
 `;
 
 const SelectList = styled.ul`
@@ -83,67 +81,6 @@ const SelectList = styled.ul`
     font-size: 16px;
     font-weight: 500;
     line-height: 43.5px;
-  }
-`;
-
-const List = styled.li<IList>`
-  position: relative;
-  display: flex;
-  margin-bottom: 8px;
-  padding: 20px 26px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  border-radius: 20px;
-  border: 1px solid var(--G_03, #d9d9d9);
-  background: var(--W_00, #fff);
-  box-sizing: border-box;
-
-  h3 {
-    width: 80%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: var(--Sub_01, var(--G_00, #000));
-    font: 600 18px/24px "Pretendard";
-  }
-  p {
-    width: 230px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: var(--main, #056fe7);
-    font: 400 14px "Pretendard";
-  }
-
-  .label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 67px;
-    height: 100%;
-    flex-shrink: 0;
-    border-radius: 0px 20px 20px 20px;
-    background: ${(props) =>
-      props.color === "민방위대피소" ||
-      props.color === "임시주거시설" ||
-      props.color === "지진 대피소" ||
-      props.color === "대피소" ||
-      props.color === "지진옥외" ||
-      props.color === "이재민 임시주거시설" ||
-      props.color === "지진겸용 임시주거시설"
-        ? `#056fe7 no-repeat url('${process.env.PUBLIC_URL}/assets/icon/exit.png')`
-        : props.color === "급수시설"
-        ? `#5EBBCB no-repeat url('${process.env.PUBLIC_URL}/assets/icon/drop.png')`
-        : props.color === "병원"
-        ? `#EF4AAD no-repeat url('${process.env.PUBLIC_URL}/assets/icon/hospital.png')`
-        : props.color === "약국"
-        ? `#7750E7 no-repeat url('${process.env.PUBLIC_URL}/assets/icon/medicine.png')`
-        : null};
-    background-position: center;
-  }
-  .copy {
-    display: inline-block;
   }
 `;
 
@@ -186,7 +123,6 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
   const menuList = [
     "전체",
     "전체 대피소",
-    "민방위대피소",
     "임시주거시설",
     "지진 대피소",
     "급수시설",
@@ -211,7 +147,7 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
       <SelectWrap>
         <h3 onClick={() => setShowMenu((prev) => !prev)}>
           {categoryName}{" "}
-          <Icon isOpen={showMenu}>
+          <Icon $isOpen={showMenu}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="15"
@@ -248,88 +184,87 @@ const ListMenu = ({ clickEvent, dataArr, wholeData }: IListMenu) => {
       </SelectWrap>
       <ListWrap>
         <ul>
-          {dataArr && categoryName === "급수시설"
-            ? dataArr.waterworks.map((data, index) => {
+          {dataArr && categoryName === "급수시설" ? (
+            dataArr.waterworks.map((data, index) => {
+              return (
+                <List
+                  key={uuidv4()}
+                  tag={categoryName}
+                  data={data}
+                  clickEvent={clickEvent}
+                  setListName={setListName}
+                />
+              );
+            })
+          ) : dataArr && categoryName === "전체 대피소" ? (
+            dataArr.shelter.map((data, index) => {
+              if (data.tag === "전체 대피소") {
                 return (
                   <List
-                    key={`${data.title}-waterworks`}
-                    color={data.tag}
-                    onClick={(e) => {
-                      clickEvent([data.latitude, data.longitude]);
-                      setListName(data.title);
-                    }}
-                  >
-                    <h3>{data.title}</h3>
-                    <div className="addressWrap">
-                      <p>{data.address}</p>
-                      <CopyClipBoard text={data.address} />
-                    </div>
-                    <div className="label"></div>
-                  </List>
+                    key={uuidv4()}
+                    tag={categoryName}
+                    data={data}
+                    clickEvent={clickEvent}
+                    setListName={setListName}
+                  />
                 );
-              })
-            : dataArr && categoryName === "전체 대피소"
-            ? dataArr.shelter.map((data, index) => {
+              } else {
+                return null;
+              }
+            })
+          ) : dataArr && categoryName === "병원&약국" ? (
+            dataArr.hospital.map((data, index) => (
+              <List
+                key={uuidv4()}
+                tag={categoryName}
+                data={data}
+                clickEvent={clickEvent}
+                setListName={setListName}
+              />
+            ))
+          ) : dataArr && categoryName === "전체" ? (
+            wholeData?.map((data, index) => (
+              <List
+                key={uuidv4()}
+                tag={categoryName}
+                data={data}
+                clickEvent={clickEvent}
+                setListName={setListName}
+              />
+            ))
+          ) : dataArr && categoryName === "임시주거시설" ? (
+            dataArr.shelter.map((data, index) => {
+              if (data.tag === "임시주거시설") {
                 return (
                   <List
-                    key={`${data.title}-shelter`}
-                    color={data.tag.split(",")[0]}
-                    onClick={(e) => {
-                      clickEvent([data.latitude, data.longitude]);
-                      setListName(data.title);
-                    }}
-                  >
-                    <h3>{data.title}</h3>
-                    <div className="addressWrap">
-                      <p>{data.address}</p>
-                      <CopyClipBoard text={data.address} />
-                    </div>
-                    <div className="label"></div>
-                  </List>
+                    key={uuidv4()}
+                    tag={categoryName}
+                    data={data}
+                    clickEvent={clickEvent}
+                    setListName={setListName}
+                  />
                 );
-              })
-            : dataArr && categoryName === "병원&약국"
-            ? dataArr.hospital.map((data, index) => {
+              } else {
+                return null;
+              }
+            })
+          ) : dataArr && categoryName === "지진 대피소" ? (
+            dataArr.shelter.map((data, index) => {
+              if (data.tag === "지진 대피소") {
                 return (
                   <List
-                    key={`${data.title}-hospital`}
-                    color={data.tag}
-                    onClick={(e) => {
-                      clickEvent([data.latitude, data.longitude]);
-                      setListName(data.title);
-                    }}
-                  >
-                    <h3>{data.title}</h3>
-                    <div className="addressWrap">
-                      <p>{data.address}</p>
-                      <CopyClipBoard text={data.address} />
-                    </div>
-
-                    <div className="label"></div>
-                  </List>
+                    key={uuidv4()}
+                    tag={categoryName}
+                    data={data}
+                    clickEvent={clickEvent}
+                    setListName={setListName}
+                  />
                 );
-              })
-            : dataArr && categoryName === "전체"
-            ? wholeData?.map((data, index) => {
-                return (
-                  <List
-                    key={index}
-                    color={data.tag.split(",")[0]}
-                    onClick={(e) => {
-                      clickEvent([data.latitude, data.longitude]);
-                      setListName(data.title);
-                    }}
-                  >
-                    <h3>{data.title}</h3>
-                    <div className="addressWrap">
-                      <p>{data.address}</p>
-                      <CopyClipBoard text={data.address} />
-                    </div>
-                    <div className="label"></div>
-                  </List>
-                );
-              })
-            : null}
+              }
+            })
+          ) : (
+            <p>주변에 {categoryName}(이)가 없습니다!</p>
+          )}
         </ul>
       </ListWrap>
     </ContentsWrap>

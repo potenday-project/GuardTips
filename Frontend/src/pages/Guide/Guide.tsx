@@ -77,6 +77,11 @@ const Guide = () => {
 
   const data = ["재난대처", "응급처치", "생존배낭"];
 
+  // 안드로이드 데이터 전송
+  useEffect(() => {
+    window.Android.getType(name);
+  }, [name]);
+
   // useEffect(() => {
   //   let stored = localStorage.getItem("tabs");
   //   if (!stored) return;

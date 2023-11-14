@@ -158,6 +158,7 @@ const Map = () => {
   const [myLocation, setMyLocation] = useRecoilState(curLocationAtom);
 
   const [wholeData, setWholeData] = useState<IArr[]>();
+  const [tempLivingData, setTempLivingData] = useState<IArr[]>();
 
   const wholeDataArr = () => {
     let sortArr: {
@@ -170,7 +171,11 @@ const Map = () => {
     }[] = [];
     if (dataArr) {
       dataArr.waterworks.map((x) => sortArr.push(x));
-      dataArr.shelter.map((x) => sortArr.push(x));
+      dataArr.shelter.map((x) => {
+        if (x.tag === "전체 대피소") {
+          sortArr.push(x);
+        }
+      });
       dataArr.hospital.map((x) => sortArr.push(x));
     }
     sortArr.sort((a, b) => {
@@ -268,7 +273,7 @@ const Map = () => {
     if (mapRef) {
       let center = mapRef.getCenter();
       setMyLocation({ latitude: center._lat, longitude: center._lng });
-      console.log(dataArr);
+      // console.log(dataArr);
     }
   };
 
@@ -312,22 +317,28 @@ const Map = () => {
                   />
                 ))
               : dataArr && categoryName === "전체 대피소"
-              ? dataArr.shelter.map((data) => (
-                  <Marker
-                    key={data.title}
-                    position={
-                      new navermaps.LatLng(data.latitude, data.longitude)
-                    }
-                    title={data.title}
-                    onClick={() => {
-                      clickMapEvent([data.latitude, data.longitude]);
-                      setListName(data.title);
-                    }}
-                    icon={{
-                      content: `<div class="marker exitMarker"><img src="assets/icon/exit.png" alt=${data.tag} /></div>`,
-                    }}
-                  />
-                ))
+              ? dataArr.shelter.map((data) => {
+                  if (data.tag === "전체 대피소") {
+                    return (
+                      <Marker
+                        key={data.title}
+                        position={
+                          new navermaps.LatLng(data.latitude, data.longitude)
+                        }
+                        title={data.title}
+                        onClick={() => {
+                          clickMapEvent([data.latitude, data.longitude]);
+                          setListName(data.title);
+                        }}
+                        icon={{
+                          content: `<div class="marker exitMarker"><img src="assets/icon/exit.png" alt=${data.tag} /></div>`,
+                        }}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })
               : dataArr && categoryName === "병원&약국"
               ? dataArr.hospital.map((data) => (
                   <Marker
@@ -350,6 +361,52 @@ const Map = () => {
                     }}
                   />
                 ))
+              : dataArr && categoryName === "임시주거시설"
+              ? dataArr.shelter.map((data) => {
+                  if (data.tag === "임시주거시설") {
+                    return (
+                      <Marker
+                        key={data.title}
+                        position={
+                          new navermaps.LatLng(data.latitude, data.longitude)
+                        }
+                        title={data.title}
+                        onClick={() => {
+                          clickMapEvent([data.latitude, data.longitude]);
+                          setListName(data.title);
+                        }}
+                        icon={{
+                          content: `<div class="marker exitMarker"><img src="assets/icon/exit.png" alt=${data.tag} /></div>`,
+                        }}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : dataArr && categoryName === "지진 대피소"
+              ? dataArr.shelter.map((data) => {
+                  if (data.tag === "지진 대피소") {
+                    return (
+                      <Marker
+                        key={data.title}
+                        position={
+                          new navermaps.LatLng(data.latitude, data.longitude)
+                        }
+                        title={data.title}
+                        onClick={() => {
+                          clickMapEvent([data.latitude, data.longitude]);
+                          setListName(data.title);
+                        }}
+                        icon={{
+                          content: `<div class="marker exitMarker"><img src="assets/icon/exit.png" alt=${data.tag} /></div>`,
+                        }}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })
               : dataArr && categoryName === "전체"
               ? wholeData?.map((data) => (
                   <Marker
