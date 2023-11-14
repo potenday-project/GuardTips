@@ -90,6 +90,12 @@ p{
 }
 `;
 
+declare global {
+  interface Window {
+    Android: any;
+  }
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
