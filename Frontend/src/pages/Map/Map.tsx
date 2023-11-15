@@ -191,6 +191,8 @@ const Map = () => {
       setCategoryName("전체");
     } else if (enterName === "대피 시설") {
       setCategoryName("전체 대피소");
+    } else if (enterName === "의료시설") {
+      setCategoryName("병원&약국");
     } else {
       setCategoryName(enterName);
     }

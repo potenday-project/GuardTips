@@ -41,9 +41,8 @@ const Main = () => {
 
   const mapMain = [
     { name: "대피 시설", btn: "blue", img: "assets/exit.png" },
-    { name: "출동차량 위치확인", btn: "pink", img: "assets/ambulance.png" },
+    { name: "의료시설", btn: "pink", img: "assets/pharmacy.png" },
     { name: "급수시설", btn: "green", img: "assets/water.png" },
-    { name: "병원&약국", btn: "purple", img: "assets/pharmacy.png" },
   ];
   const mapSide = [
     { name: "생존배낭", img: "assets/icon/bag_grey.png" },
