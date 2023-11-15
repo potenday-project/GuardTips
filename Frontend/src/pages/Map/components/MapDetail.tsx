@@ -122,14 +122,17 @@ const DetailWrap = styled.div`
     position: absolute;
     top: -25px;
     right: 30px;
-    border-radius: 20px 20px 0px 0px;
-    background: #aacaf0;
-    display: inline-flex;
-    padding: 2px 18px;
-    justify-content: center;
-    align-items: center;
-    letter-spacing: -0.35px;
-    font: 600 14px/150.023% "Pretendard";
+    li {
+      border-radius: 20px 20px 0px 0px;
+      background: #aacaf0;
+      display: inline-flex;
+      padding: 2px 18px;
+      justify-content: center;
+      align-items: center;
+      margin-left: 8px;
+      letter-spacing: -0.35px;
+      font: 600 14px/150.023% "Pretendard";
+    }
   }
 `;
 
@@ -291,7 +294,15 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <p>{data.address}</p>
                   </li>
                   {data.badge !== "-" ? (
-                    <div className="badgeWrap">{data.badge}</div>
+                    <ul className="badgeWrap">
+                      {data.badge
+                        .split(",")
+                        .reverse()
+                        .map((x) => {
+                          console.log(x);
+                          return <li>{x}</li>;
+                        })}
+                    </ul>
                   ) : null}
                 </ul>
               ) : (
@@ -422,7 +433,14 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <p>{data.address}</p>
                   </li>
                   {data.badge !== "-" ? (
-                    <div className="badgeWrap">{data.badge}</div>
+                    <ul className="badgeWrap">
+                      {data.badge
+                        .split(",")
+                        .reverse()
+                        .map((x) => {
+                          return <li>{x}</li>;
+                        })}
+                    </ul>
                   ) : null}
                 </ul>
               ) : (
@@ -494,7 +512,14 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <p>{data.address}</p>
                   </li>
                   {data.badge !== "-" ? (
-                    <div className="badgeWrap">{data.badge}</div>
+                    <ul className="badgeWrap">
+                      {typeof data.badge === "string"
+                        ? data.badge.split(",").map((x) => {
+                            console.log(x);
+                            return <li>{x}</li>;
+                          })
+                        : null}
+                    </ul>
                   ) : null}
                 </ul>
               ) : data.tag === "급수시설" ? (
@@ -599,7 +624,14 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <p>{data.address}</p>
                   </li>
                   {data.badge !== "-" ? (
-                    <div className="badgeWrap">{data.badge}</div>
+                    <ul className="badgeWrap">
+                      {data.badge
+                        .split(",")
+                        .reverse()
+                        .map((x) => {
+                          return <li>{x}</li>;
+                        })}
+                    </ul>
                   ) : null}
                 </ul>
               ) : (
@@ -671,7 +703,14 @@ const MapDetail = ({ dataArr, wholeData }: IDetail) => {
                     <p>{data.address}</p>
                   </li>
                   {data.badge !== "-" ? (
-                    <div className="badgeWrap">{data.badge}</div>
+                    <ul className="badgeWrap">
+                      {data.badge
+                        .split(",")
+                        .reverse()
+                        .map((x) => {
+                          return <li>{x}</li>;
+                        })}
+                    </ul>
                   ) : null}
                 </ul>
               ) : (
