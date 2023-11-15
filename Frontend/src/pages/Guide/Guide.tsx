@@ -57,10 +57,16 @@ const TabWrap = styled.ul`
   font-weight: 700;
   width: 300px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 30px;
   position: sticky;
-  top: 90px;
+  top: 70px;
   z-index: 1;
+  background-color: #f4f4f9;
+  width: 100%;
+  height: 50px;
+  padding-left: 30px;
   .active {
     border-bottom: solid 2px #056fe7;
     color: #056fe7;
@@ -78,9 +84,9 @@ const Guide = () => {
   const data = ["재난대처", "응급처치", "생존배낭"];
 
   // 안드로이드 데이터 전송
-  useEffect(() => {
-    window.Android.getType(name);
-  }, [name]);
+  // useEffect(() => {
+  //   window.Android.getType(name);
+  // }, [name]);
 
   // useEffect(() => {
   //   let stored = localStorage.getItem("tabs");
@@ -124,20 +130,20 @@ const Guide = () => {
           </div>
         </div>
       </BannerWrap>
+      <TabWrap>
+        {data.map((x) => {
+          return (
+            <li
+              key={x}
+              onClick={onClick}
+              className={x === name ? "active" : undefined}
+            >
+              {x}
+            </li>
+          );
+        })}
+      </TabWrap>
       <ContentsWrap>
-        <TabWrap>
-          {data.map((x) => {
-            return (
-              <li
-                key={x}
-                onClick={onClick}
-                className={x === name ? "active" : undefined}
-              >
-                {x}
-              </li>
-            );
-          })}
-        </TabWrap>
         {name === "생존배낭" ? (
           <GHB />
         ) : name === "응급처치" ? (
